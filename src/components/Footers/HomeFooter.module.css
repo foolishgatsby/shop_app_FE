@@ -1,0 +1,51 @@
+.footer {
+  margin: 30px 0;
+  font-size: 14px;
+}
+
+.footer .footerTitle {
+  color: #fff !important;
+  text-transform: uppercase;
+  font-size: 18px;
+  margin: 0 0 30px;
+}
+
+.footerLinks li + li {
+  margin-top: 15px;
+}
+
+.footerLinks li a {
+  color: #b9babc !important;
+}
+
+.footerLinks li a:hover {
+  color: #d10024 !important;
+}
+
+.footerLinks li i {
+  margin-right: 15px;
+  color: #d10024;
+  width: 14px;
+  text-align: center;
+}
+
+#bottomFooter {
+  background: #1e1f29;
+}
+
+.footerPayment li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.footerPayment li a {
+  color: #15161d !important;
+  font-size: 36px;
+  display: block;
+}
+
+.copyright {
+  margin-top: 30px;
+  display: block;
+  font-size: 12px;
+}

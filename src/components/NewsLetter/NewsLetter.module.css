@@ -1,0 +1,74 @@
+#newsLetter {
+  border-top: 2px solid #e4e7ed;
+  border-bottom: 3px solid #d10024;
+  margin-top: 30px;
+}
+
+.newsLetter p {
+  font-size: 24px;
+}
+
+.newsLetter form {
+  position: relative;
+  max-width: 520px;
+  margin: 30px auto;
+}
+
+.newsLetter form::after {
+  content: "\f0e0";
+  font-family: "Font Awesome 5 Free";
+  position: absolute;
+  font-size: 160px;
+  color: #e4e7ed;
+  top: 15px;
+  transform: translateY(-50%) rotate(15deg);
+  z-index: -1;
+  left: -90px;
+}
+
+.newsLetter form .input {
+  width: calc(100% - 160px);
+  margin-right: -4px;
+  border-radius: 40px 0px 0px 40px;
+}
+
+.newsLetter form .newsLetterBtn {
+  width: 160px;
+  height: 40px;
+  font-weight: 700;
+  background: #d10024;
+  color: #fff;
+  border: none;
+  border-radius: 0 40px 40px 0px;
+}
+
+.newsLetter .newsLetterFollow {
+  text-align: center;
+}
+
+.newsLetter .newsLetterFollow li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.newsLetter .newsLetterFollow li:last-child {
+  margin-right: 0;
+}
+
+.newsLetter .newsLetterFollow li a {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 40px;
+  border: 1px solid #e4e7ed;
+  background-color: #fff;
+  transition: 0.2s all;
+}
+
+.newsLetter .newsLetterFollow li a:hover,
+.newsLetter .newsLetterFollow li a:focus {
+  background-color: #e4e7ed;
+  color: #d10024;
+}

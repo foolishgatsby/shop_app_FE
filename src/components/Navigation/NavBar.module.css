@@ -1,0 +1,36 @@
+#navigation {
+  background: #fff;
+  border-bottom: 2px solid #e4e7ed;
+  border-top: 3px solid #d10024;
+  padding: 0;
+}
+
+.mainNav > li + li {
+  margin-left: 30px;
+}
+
+.mainNav > li > a {
+  padding: 20px 0px !important;
+}
+
+.mainNav > li > a:hover,
+.mainNav > li > a:focus,
+.mainNav > li > a.active {
+  color: #d10024 !important;
+  background-color: transparent;
+}
+
+.mainNav > li > a::after {
+  content: "";
+  display: block;
+  width: 0%;
+  height: 2px;
+  background-color: #d10024;
+  transition: 0.2s all;
+}
+
+.mainNav > li > a:hover::after,
+.mainNav > li > a:focus::after,
+.mainNav > li > a.active::after {
+  width: 100%;
+}
