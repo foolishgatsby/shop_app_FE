@@ -211,7 +211,7 @@ li > a.active::after {
 
 .products-slick-nav {
   position: absolute;
-  right: 16%;
+  right: 7%;
   z-index: 10;
 }
 

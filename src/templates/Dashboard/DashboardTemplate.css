@@ -1,0 +1,17 @@
+#admin-pills-tab.nav-pills .nav-link.active {
+  background-color: #c90000 !important;
+}
+
+#admin-pills-tab.nav-pills .dropdown-item.active,
+.dropdown-item:active {
+  background-color: #c90000;
+  color: #fff !important;
+}
+
+#admin-pills-tab.nav-pills .nav-link {
+  border-radius: 0;
+}
+
+#admin-pills-tab .dropdown-toggle::after {
+  margin-left: 4.5rem;
+}

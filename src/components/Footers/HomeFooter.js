@@ -20,14 +20,13 @@ export default function HomeFooter(props) {
                   <li>
                     <a href="#">
                       <i className="fa fa-map-marker-alt" />
-                      45/6 Bui Quang La, Ward 12 <br />
-                      Go Vap District, Ho Chi Minh city
+                      1734 Stonecoal Road
                     </a>
                   </li>
                   <li>
                     <a href="#">
                       <i className="fa fa-phone-alt" />
-                      +84941300169
+                      +021-95-51-84
                     </a>
                   </li>
                   <li>
@@ -146,11 +145,8 @@ export default function HomeFooter(props) {
                 </li>
               </ul>
               <span className={homeFooterStyle.copyright}>
-                Copyright ©2023 All rights reserved | This template is made with{" "}
-                <i className="far fa-heart" aria-hidden="true" /> by{" "}
-                <a href="https://github.com/foolishgatsby" target="_blank">
-                  foolishgatsby
-                </a>
+                Copyright ©2024 All rights reserved | Made by{" "}
+                <a href="#" target="_blank"></a>
               </span>
             </div>
           </div>

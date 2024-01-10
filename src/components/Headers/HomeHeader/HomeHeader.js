@@ -13,7 +13,7 @@ export default function HomeHeader(props) {
           <ul className={homeHeaderStyle.headerLinks}>
             <li>
               <a href="tel: +84941300169">
-                <i className="fa fa-phone-alt" /> +84941300169
+                <i className="fa fa-phone-alt" /> +021-95-51-84
               </a>
             </li>
             <li>
@@ -23,8 +23,7 @@ export default function HomeHeader(props) {
             </li>
             <li>
               <a href="https://maps.app.goo.gl/ug3xQaUquE1wrkEE8">
-                <i className="fa fa-map-marker-alt" /> 45/6 Bui Quang La, Ward
-                12, Go Vap District, Ho Chi Minh city
+                <i className="fa fa-map-marker-alt" /> 1734 Stonecoal Road
               </a>
             </li>
           </ul>
