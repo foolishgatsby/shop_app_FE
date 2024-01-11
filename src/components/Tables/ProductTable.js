@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Space, Table, Button, Input } from "antd";
 import {
   SearchOutlined,
@@ -6,46 +6,68 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
 
-const dataSource = [
-  {
-    key: "1",
-    id: 1,
-    name: "Mike",
-    password: "password 1",
-    role: "admin",
-  },
-  {
-    key: "2",
-    id: 2,
-    name: "Store 1",
-    password: "password 2",
-    role: "store owner",
-  },
-  {
-    key: "3",
-    id: 3,
-    name: "User account 1",
-    password: "password 3",
-    role: "user",
-  },
-  {
-    key: "4",
-    id: 4,
-    name: "User account 2",
-    password: "password 4",
-    role: "user",
-  },
-  {
-    key: "5",
-    id: 5,
-    name: "Store 2",
-    password: "password 5",
-    role: "store owner",
-  },
-];
+// const dataSource = [
+//   {
+//     key: "1",
+//     id: 1,
+//     name: "product 1",
+//     category: "Laptops",
+//     price: 1300000,
+//     oldprice: 1300000,
+//     rating: 4.5,
+//   },
+//   {
+//     key: "2",
+//     id: 2,
+//     name: "product 2",
+//     category: "Laptops",
+//     price: 5000000,
+//     oldprice: 5000000,
+//     rating: 4.5,
+//   },
+//   {
+//     key: "3",
+//     id: 3,
+//     name: "product 3",
+//     category: "Accessories",
+//     price: 5000000,
+//     oldprice: 5000000,
+//     rating: 4.5,
+//   },
+//   {
+//     key: "4",
+//     id: 4,
+//     name: "product 4",
+//     category: "Accessories",
+//     price: 5000000,
+//     oldprice: 5000000,
+//     rating: 5,
+//   },
+//   {
+//     key: "5",
+//     id: 5,
+//     name: "product 5",
+//     category: "Cameras",
+//     price: 1500000,
+//     oldprice: 1500000,
+//     rating: 3,
+//   },
+// ];
 
-export default function CustomerTable(props) {
+export default function ProductTable(props) {
+  const { productList } = useSelector((state) => state.ProductTableReducer);
+
+  // get product by category
+  const { categoryId } = props;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProductByCategory_api(categoryId));
+  }, []);
+
+  // search function of table
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -160,6 +182,7 @@ export default function CustomerTable(props) {
         text
       ),
   });
+
   const columns = [
     {
       title: "ID",
@@ -170,7 +193,7 @@ export default function CustomerTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "User Name",
+      title: "Product name",
       dataIndex: "name",
       key: "name",
       ...getColumnSearchProps("name"),
@@ -178,14 +201,34 @@ export default function CustomerTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Password",
-      dataIndex: "password",
-      key: "password",
+      title: "Product Category",
+      dataIndex: "category",
+      key: "category",
+      ...getColumnSearchProps("category"),
     },
     {
-      title: "Account Role",
-      dataIndex: "role",
-      key: "role",
+      title: "Price",
+      dataIndex: "price",
+      key: "price",
+      ...getColumnSearchProps("price"),
+      sorter: (a, b) => a.price - b.price,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Old price",
+      dataIndex: "oldprice",
+      key: "oldprice",
+      ...getColumnSearchProps("oldprice"),
+      sorter: (a, b) => a.oldprice - b.oldprice,
+      sortDirections: ["descend", "ascend"],
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      // ...getColumnSearchProps("rating"),
+      sorter: (a, b) => a.price - b.price,
+      sortDirections: ["descend", "ascend"],
     },
     {
       title: "",
@@ -203,12 +246,14 @@ export default function CustomerTable(props) {
       ),
     },
   ];
+
+  // return component
   return (
     <div>
       <div className="mb-3">
-        <button className="btn btn-danger">ADD STORE OWNER</button>
+        <button className="btn btn-danger">ADD NEW PRODUCT</button>
       </div>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table columns={columns} dataSource={productList} />
     </div>
   );
 }

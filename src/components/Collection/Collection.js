@@ -6,7 +6,7 @@ export default function Collection() {
     <div className="setion">
       <div className="container">
         <div className="row">
-          <div className="col-md-4 col-6">
+          <div className="col-6 col-lg-4">
             <div className={CollectionStyle.shop}>
               <div className={CollectionStyle.shopImg}>
                 <img
@@ -26,7 +26,7 @@ export default function Collection() {
               </div>
             </div>
           </div>
-          <div className="col-md-4 col-6">
+          <div className="col-6 col-lg-4">
             <div className={CollectionStyle.shop}>
               <div className={CollectionStyle.shopImg}>
                 <img
@@ -46,7 +46,7 @@ export default function Collection() {
               </div>
             </div>
           </div>
-          <div className="col-md-4 col-6">
+          <div className="col-6 col-lg-4">
             <div className={CollectionStyle.shop}>
               <div className={CollectionStyle.shopImg}>
                 <img

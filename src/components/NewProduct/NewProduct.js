@@ -9,12 +9,23 @@ const sliderSetting = {
   className: NewProductStyle.productSlick,
   dots: false,
   infinite: true,
-  autoplay: false,
+  autoplay: true,
   slidesToShow: 4,
   slidesToScroll: 1,
   autoplaySpeed: 3000,
   swipeToSlide: true,
   arrows: false,
+  responsive: [
+    {
+      breakpoint: 992,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        infinite: true,
+        dots: false,
+      },
+    },
+  ],
 };
 
 export default function NewProduct(props) {

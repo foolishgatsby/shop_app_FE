@@ -3,6 +3,7 @@ import React from "react";
 import homeHeaderStyle from "./HomeHeader.module.css";
 // library
 import clsx from "clsx";
+import { NavLink } from "react-router-dom";
 
 export default function HomeHeader(props) {
   // console.log(homeHeaderStyle);
@@ -34,9 +35,9 @@ export default function HomeHeader(props) {
               </a>
             </li>
             <li>
-              <a href="#">
+              <NavLink to="/user/signin">
                 <i className="far fa-user" /> My Account
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
@@ -44,7 +45,7 @@ export default function HomeHeader(props) {
       <div id={homeHeaderStyle.header}>
         <div className="container">
           <div className="row">
-            <div className="col-md-3">
+            <div className="col-12 col-lg-3 d-flex justify-content-center d-lg-block">
               <div className={homeHeaderStyle.headerLogo}>
                 <a href="#" className={homeHeaderStyle.logo}>
                   <img
@@ -54,7 +55,7 @@ export default function HomeHeader(props) {
                 </a>
               </div>
             </div>
-            <div className="col-md-6">
+            <div className="col-12 col-lg-6">
               <div className={homeHeaderStyle.headerSearch}>
                 <form>
                   <select className={homeHeaderStyle.inputSelect}>
@@ -72,7 +73,7 @@ export default function HomeHeader(props) {
                 </form>
               </div>
             </div>
-            <div className="col-md-3 clearfix">
+            <div className="col-12 col-lg-3 clearfix">
               <div className={homeHeaderStyle.headerCtn}>
                 <div>
                   <a href="#">

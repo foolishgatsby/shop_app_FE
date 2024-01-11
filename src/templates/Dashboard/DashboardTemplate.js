@@ -2,9 +2,7 @@ import React from "react";
 import "./DashboardTemplate.css";
 import CustomerTable from "../../components/Tables/CustomerTable";
 import CategoryTable from "../../components/Tables/CategoryTable";
-import LaptopTable from "../../components/Tables/LaptopTable";
-import AccessoriesTable from "../../components/Tables/AccessoriesTable";
-import CameraTable from "../../components/Tables/CameraTable";
+import ProductTable from "../../components/Tables/ProductTable";
 
 export default function DashboardTemplate() {
   return (
@@ -152,7 +150,7 @@ export default function DashboardTemplate() {
             aria-labelledby="admin-pills-laptops-tab"
             tabIndex="0"
           >
-            <LaptopTable />
+            <ProductTable categoryId="1" />
           </div>
           <div
             className="tab-pane fade"
@@ -161,7 +159,7 @@ export default function DashboardTemplate() {
             aria-labelledby="admin-pills-accessories-tab"
             tabIndex="0"
           >
-            <AccessoriesTable />
+            <ProductTable categoryId="2" />
           </div>
           <div
             className="tab-pane fade"
@@ -170,7 +168,7 @@ export default function DashboardTemplate() {
             aria-labelledby="admin-pills-cameras-tab"
             tabIndex="0"
           >
-            <CameraTable />
+            <ProductTable categoryId="3" />
           </div>
         </div>
       </div>
