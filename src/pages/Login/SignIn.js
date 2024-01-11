@@ -77,6 +77,10 @@ export default function SignIn(props) {
               <a href="#" className="txt1">
                 Forgot Password?
               </a>
+              {" | "}
+              <a href="#" className="txt1">
+                Sign Up
+              </a>
             </div>
           </div>
           <div className="container-login100-form-btn">
