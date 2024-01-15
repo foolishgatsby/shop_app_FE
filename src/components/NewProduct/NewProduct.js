@@ -4,6 +4,7 @@ import NewProductStyle from "./NewProduct.module.css";
 
 // react slick
 import Slider from "react-slick";
+import { NavLink } from "react-router-dom";
 
 const sliderSetting = {
   className: NewProductStyle.productSlick,
@@ -161,7 +162,9 @@ export default function NewProduct(props) {
                         Category
                       </p>
                       <h3 className={NewProductStyle.productName}>
-                        <a href="#">product name goes here</a>
+                        <NavLink to={"/productdetail"}>
+                          product name goes here
+                        </NavLink>
                       </h3>
                       <h4 className={NewProductStyle.productPrice}>
                         $980.00{" "}
@@ -227,7 +230,9 @@ export default function NewProduct(props) {
                         Category
                       </p>
                       <h3 className={NewProductStyle.productName}>
-                        <a href="#">product name goes here</a>
+                        <NavLink to={"/productdetail"}>
+                          product name goes here
+                        </NavLink>
                       </h3>
                       <h4 className={NewProductStyle.productPrice}>
                         $980.00{" "}
@@ -293,7 +298,9 @@ export default function NewProduct(props) {
                         Category
                       </p>
                       <h3 className={NewProductStyle.productName}>
-                        <a href="#">product name goes here</a>
+                        <NavLink to={"/productdetail"}>
+                          product name goes here
+                        </NavLink>
                       </h3>
                       <h4 className={NewProductStyle.productPrice}>
                         $980.00{" "}
@@ -359,7 +366,9 @@ export default function NewProduct(props) {
                         Category
                       </p>
                       <h3 className={NewProductStyle.productName}>
-                        <a href="#">product name goes here</a>
+                        <NavLink to={"/productdetail"}>
+                          product name goes here
+                        </NavLink>
                       </h3>
                       <h4 className={NewProductStyle.productPrice}>
                         $980.00{" "}
@@ -425,7 +434,9 @@ export default function NewProduct(props) {
                         Category
                       </p>
                       <h3 className={NewProductStyle.productName}>
-                        <a href="#">product name goes here</a>
+                        <NavLink to={"/productdetail"}>
+                          product name goes here
+                        </NavLink>
                       </h3>
                       <h4 className={NewProductStyle.productPrice}>
                         $980.00{" "}

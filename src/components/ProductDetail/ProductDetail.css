@@ -1,0 +1,42 @@
+.btn-product-detail {
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.1),
+    0 2px 6px 2px rgba(60, 64, 67, 0.15);
+  transition: background-color 0.5s ease;
+  gap: 5px;
+}
+
+.btn-product-detail:hover {
+  color: #d10024;
+  border-color: #d10024 !important;
+  background-color: #fef2f2;
+  transition: background-color 0.5s ease;
+}
+
+button.btn.increase:active,
+button.btn.decrease:active {
+  border-color: transparent;
+}
+
+.comment p.name-letter {
+  background-color: #05432b;
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 600;
+  height: 32px;
+  overflow: hidden;
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0;
+}
+
+.comment .comment-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.comment .date-time {
+  margin-bottom: 0 !important;
+}

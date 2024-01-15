@@ -9,6 +9,7 @@ import DashboardTemplate from "./templates/Dashboard/DashboardTemplate";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import SignIn from "./pages/Login/SignIn";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route exact path="/" element={<HomeTemplate />}>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
+            <Route exact path="/productdetail" element={<ProductDetail />} />
           </Route>
           <Route exact path="/user/signin" element={<SignIn />} />
           <Route exact path="/admin" element={<DashboardTemplate />} />
