@@ -1,12 +1,45 @@
 import React from "react";
 import CollectionStyle from "./Collection.module.css";
+import { useSelector } from "react-redux";
 
-export default function Collection() {
+export default function Collection(props) {
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
+
+  const renderColectionCard = () => {
+    return arrCategories?.map((category, index) => {
+      if (index > 2) {
+        return;
+      }
+      return (
+        <div className="col-6 col-lg-4" key={index}>
+          <div className={CollectionStyle.shop}>
+            <div className={CollectionStyle.shopImg}>
+              <img
+                src={require(`../../assets/img/shop0${index + 1}.png.webp`)}
+                alt={`collection ${index}`}
+              />
+            </div>
+            <div className={CollectionStyle.shopBody}>
+              <h3>
+                {category.name}
+                <br />
+                Collection
+              </h3>
+              <a href="#" className={CollectionStyle.ctaBtn}>
+                Shop now <i className="fa fa-arrow-circle-right" />
+              </a>
+            </div>
+          </div>
+        </div>
+      );
+    });
+  };
+
   return (
     <div className="setion">
       <div className="container">
         <div className="row">
-          <div className="col-6 col-lg-4">
+          {/* <div className="col-6 col-lg-4">
             <div className={CollectionStyle.shop}>
               <div className={CollectionStyle.shopImg}>
                 <img
@@ -65,7 +98,8 @@ export default function Collection() {
                 </a>
               </div>
             </div>
-          </div>
+          </div> */}
+          {renderColectionCard()}
         </div>
       </div>
     </div>

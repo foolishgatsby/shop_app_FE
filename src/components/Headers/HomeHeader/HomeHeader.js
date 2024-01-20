@@ -4,8 +4,10 @@ import homeHeaderStyle from "./HomeHeader.module.css";
 // library
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function HomeHeader(props) {
+  const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
   // console.log(homeHeaderStyle);
   return (
     <header>
@@ -35,8 +37,9 @@ export default function HomeHeader(props) {
               </a>
             </li>
             <li>
-              <NavLink to="/user/signin">
-                <i className="far fa-user" /> My Account
+              <NavLink to="/users/signin">
+                <i className="far fa-user" />{" "}
+                {email !== "" ? email : "My Accout"}
               </NavLink>
             </li>
           </ul>

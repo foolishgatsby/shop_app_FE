@@ -69,7 +69,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 43px 88px 93px 190px;
+  padding: 43px 88px 90px 190px;
 }
 
 .wrap-input100 {
@@ -209,6 +209,8 @@ input:focus-visible {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  transform: translateX(-51px);
 }
 
 .login100-form-btn {
@@ -227,6 +229,7 @@ input:focus-visible {
   transition: all 0.4s;
   outline: none !important;
   border: none;
+  margin: 0 auto;
   /* background: 0 0; */
 }
 
@@ -248,4 +251,57 @@ input:focus-visible {
 
 .m-b-18 {
   margin-bottom: 18px;
+}
+
+.m-b-10 {
+  margin-bottom: 10px;
+}
+
+.login-social a {
+  font-size: 28px;
+}
+
+.login-social a:hover,
+.login-social a:focus {
+  color: #57b846 !important;
+}
+
+.alert-validate::before {
+  content: attr(data-validate);
+  position: absolute;
+  max-width: 70%;
+  background-color: #fff;
+  border: 1px solid #c80000;
+  border-radius: 2px;
+  padding: 4px 25px 4px 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 2px;
+  pointer-events: none;
+  font-family: Poppins-Medium;
+  color: #c80000;
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: left;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.alert-validate:hover:before {
+  visibility: visible;
+  opacity: 1;
+}
+
+.alert-validate::after {
+  content: "\f06a";
+  font-family: "Font Awesome 5 Free";
+  display: block;
+  position: absolute;
+  color: #c80000;
+  font-size: 15px;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  font-weight: 900;
 }
