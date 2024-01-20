@@ -4,13 +4,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { signin_api } from "../../redux/actions/ActionsApi";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { setRoleAction } from "../../redux/actions/NormalActions";
 
 export default function SignIn(props) {
-  const { isLogin } = useSelector((state) => state.IsLoginReducer);
+  const { isLogin, role } = useSelector((state) => state.IsLoginReducer);
   const navigate = useNavigate();
   useEffect(() => {
     if (isLogin) {
-      navigate("/home");
+      if (role === 0) {
+        navigate("/home");
+      } else {
+        navigate("/admin");
+      }
     }
   }, [isLogin]);
 
@@ -130,6 +135,25 @@ export default function SignIn(props) {
           <span className="login100-form-title-1">Sign In</span>
         </div>
         <form className="login100-form validate-form" onSubmit={handleSubmit}>
+          <div
+            className={`wrap-input100 m-b-26`}
+            style={{ borderBottom: "0px" }}
+            data-validate="Please choose your role"
+          >
+            <span className="label-input100">You are</span>
+            <select
+              className="form-select"
+              defaultValue={0}
+              onChange={(e) => {
+                console.log(e.target.value);
+                // set role
+                dispatch(setRoleAction(e.target.value));
+              }}
+            >
+              <option value={0}>User</option>
+              <option value={1}>Admin</option>
+            </select>
+          </div>
           <div
             className={`wrap-input100 validate-input m-b-26 ${
               errors.email === "" ? "" : "alert-validate"

@@ -2,6 +2,7 @@ import { IS_LOGIN } from "../constants/AdminConstants";
 
 const initialState = {
   isLogin: false,
+  role: 0,
   email: "",
 };
 

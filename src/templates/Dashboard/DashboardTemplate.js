@@ -4,7 +4,7 @@ import CustomerTable from "../../components/Tables/CustomerTable";
 import CategoryTable from "../../components/Tables/CategoryTable";
 import ProductTable from "../../components/Tables/ProductTable";
 
-export default function DashboardTemplate() {
+export default function DashboardTemplate(props) {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="d-flex align-items-start">
