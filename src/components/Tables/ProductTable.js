@@ -9,63 +9,12 @@ import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
 
-// const dataSource = [
-//   {
-//     key: "1",
-//     id: 1,
-//     name: "product 1",
-//     category: "Laptops",
-//     price: 1300000,
-//     oldprice: 1300000,
-//     rating: 4.5,
-//   },
-//   {
-//     key: "2",
-//     id: 2,
-//     name: "product 2",
-//     category: "Laptops",
-//     price: 5000000,
-//     oldprice: 5000000,
-//     rating: 4.5,
-//   },
-//   {
-//     key: "3",
-//     id: 3,
-//     name: "product 3",
-//     category: "Accessories",
-//     price: 5000000,
-//     oldprice: 5000000,
-//     rating: 4.5,
-//   },
-//   {
-//     key: "4",
-//     id: 4,
-//     name: "product 4",
-//     category: "Accessories",
-//     price: 5000000,
-//     oldprice: 5000000,
-//     rating: 5,
-//   },
-//   {
-//     key: "5",
-//     id: 5,
-//     name: "product 5",
-//     category: "Cameras",
-//     price: 1500000,
-//     oldprice: 1500000,
-//     rating: 3,
-//   },
-// ];
-
 export default function ProductTable(props) {
   const { productList } = useSelector((state) => state.ProductTableReducer);
 
   // get product by category
-  const { categoryId } = props;
+  // const { categoryId } = props;
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getProductByCategory_api(categoryId));
-  }, []);
 
   // search function of table
   const [searchText, setSearchText] = useState("");
@@ -249,11 +198,17 @@ export default function ProductTable(props) {
 
   // return component
   return (
-    <div>
+    <div style={{ maxHeight: "100vh" }}>
       <div className="mb-3">
         <button className="btn btn-danger">ADD NEW PRODUCT</button>
       </div>
-      <Table columns={columns} dataSource={productList} />
+      <Table
+        rowKey={"id"}
+        columns={columns}
+        dataSource={productList}
+        pagination={{ hideOnSinglePage: true }}
+        scroll={{ y: "600px" }}
+      />
     </div>
   );
 }

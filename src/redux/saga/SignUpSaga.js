@@ -5,10 +5,9 @@ import { STATUS_CODE, TOKEN } from "../../util/constants/settingSystem";
 
 function* signUpSaga(action) {
   try {
-    const { data, status } = yield call(
-      loginServices.signUp,
-      action.userRegister
-    );
+    const { data, status } = yield call(() => {
+      loginServices.signUp(action.userRegister);
+    });
 
     // console.log(data);
     if (status === STATUS_CODE.SUCCESS) {

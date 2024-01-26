@@ -1,10 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./DashboardTemplate.css";
 import CustomerTable from "../../components/Tables/CustomerTable";
 import CategoryTable from "../../components/Tables/CategoryTable";
 import ProductTable from "../../components/Tables/ProductTable";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { TOKEN } from "../../util/constants/settingSystem";
+import { isLoginAction } from "../../redux/actions/NormalActions";
+import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
 
 export default function DashboardTemplate(props) {
+  const { isLogin, role_id, email } = useSelector(
+    (state) => state.IsLoginReducer
+  );
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isLogin || localStorage.getItem(TOKEN) === null) {
+      if (role_id !== 2) {
+        navigate("/users/signin");
+      }
+    }
+  }, [isLogin, role_id]);
+
   return (
     <div style={{ minHeight: "100vh" }}>
       <div className="d-flex align-items-start">
@@ -18,13 +39,21 @@ export default function DashboardTemplate(props) {
         >
           <div className="admin-info text-center m-2">
             <div className="admin-name">
-              <h3 className="text-white p-2 fw-light">ADMIN NAME</h3>
+              <h6 className="text-white p-2 fw-light">{email}</h6>
             </div>
             <div className="admin-avatar">
               <img
                 src={require("../../assets/img/find_user.png")}
                 alt="avatar"
               />
+            </div>
+            <div
+              onClick={() => {
+                dispatch(isLoginAction(false, "", ""));
+              }}
+              className="btn btn-danger mt-2"
+            >
+              Đăng xuất
             </div>
           </div>
           <button
@@ -72,57 +101,39 @@ export default function DashboardTemplate(props) {
             PRODUCT{" "}
             <i className="fa fa-caret-down" style={{ marginLeft: "70px" }} />
           </button>
-          <ul className="collapse bg-dark" id="sideNavCollapse">
-            <li>
-              <button
-                className="nav-link text-start bg-dark"
-                id="admin-pills-laptops-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#admin-pills-laptops"
-                type="button"
-                role="tab"
-                aria-controls="admin-pills-laptops"
-                aria-selected="false"
-                style={{ color: "white", width: "100%" }}
-              >
-                Laptops
-              </button>
-            </li>
-            <li>
-              <button
-                className="nav-link text-start bg-dark"
-                id="admin-pills-accessories-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#admin-pills-accessories"
-                type="button"
-                role="tab"
-                aria-controls="admin-pills-accessories"
-                aria-selected="false"
-                style={{ color: "white", width: "100%" }}
-              >
-                Accessories
-              </button>
-            </li>
-            <li>
-              <button
-                className="nav-link text-start bg-dark"
-                id="admin-pills-cameras-tab"
-                data-bs-toggle="pill"
-                data-bs-target="#admin-pills-cameras"
-                type="button"
-                role="tab"
-                aria-controls="admin-pills-cameras"
-                aria-selected="false"
-                style={{ color: "white", width: "100%" }}
-              >
-                Cameras
-              </button>
-            </li>
+          <ul
+            className="collapse bg-dark"
+            id="sideNavCollapse"
+            style={{ maxHeight: "300px", overflowY: "scroll" }}
+          >
+            {arrCategories.map((category, index) => {
+              return (
+                <li key={index}>
+                  <button
+                    className="nav-link text-start bg-dark"
+                    id={`admin-pills-${category.id}-tab`}
+                    data-bs-toggle="pill"
+                    data-bs-target={`#admin-pills-${category.id}`}
+                    type="button"
+                    role="tab"
+                    aria-controls="admin-pills-laptops"
+                    aria-selected="false"
+                    style={{ color: "white", width: "100%" }}
+                    onClick={() => {
+                      // lấy product theo category.id
+                      dispatch(getProductByCategory_api(category.id));
+                    }}
+                  >
+                    {category.name}
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
 
         <div
-          className="tab-content w-100 h-100 py-2 pe-3"
+          className="tab-content w-100 h-100 py-2"
           id="admin-pills-tabContent"
         >
           <div
@@ -143,33 +154,20 @@ export default function DashboardTemplate(props) {
           >
             <CategoryTable />
           </div>
-          <div
-            className="tab-pane fade"
-            id="admin-pills-laptops"
-            role="tabpanel"
-            aria-labelledby="admin-pills-laptops-tab"
-            tabIndex="0"
-          >
-            <ProductTable categoryId="1" />
-          </div>
-          <div
-            className="tab-pane fade"
-            id="admin-pills-accessories"
-            role="tabpanel"
-            aria-labelledby="admin-pills-accessories-tab"
-            tabIndex="0"
-          >
-            <ProductTable categoryId="2" />
-          </div>
-          <div
-            className="tab-pane fade"
-            id="admin-pills-cameras"
-            role="tabpanel"
-            aria-labelledby="admin-pills-cameras-tab"
-            tabIndex="0"
-          >
-            <ProductTable categoryId="3" />
-          </div>
+          {arrCategories.map((category, index) => {
+            return (
+              <div
+                key={index}
+                className="tab-pane fade"
+                id={`admin-pills-${category.id}`}
+                role="tabpanel"
+                aria-labelledby={`admin-pills-${category.id}-tab`}
+                tabIndex="0"
+              >
+                <ProductTable />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

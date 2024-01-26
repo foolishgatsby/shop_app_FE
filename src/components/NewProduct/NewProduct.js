@@ -65,22 +65,26 @@ export default function NewProduct(props) {
   // render nav-tabs theo categories
   const renderNavTabs = () => {
     return arrCategories?.map((category, index) => {
-      return (
-        <li className="nav-item" role="presentation" key={index}>
-          <a
-            className={`nav-link ${category.id === 1 ? "active" : ""}`}
-            id={`newProduct-${category.id}-tab`}
-            data-bs-toggle="tab"
-            data-bs-target={`#newProduct${category.id}`}
-            type="button"
-            role="tab"
-            aria-controls=""
-            aria-selected="true"
-          >
-            {category.name}
-          </a>
-        </li>
-      );
+      if (index <= 4) {
+        return (
+          <li className="nav-item" role="presentation" key={index}>
+            <a
+              className={`nav-link ${category.id === 1 ? "active" : ""}`}
+              id={`newProduct-${category.id}-tab`}
+              data-bs-toggle="tab"
+              data-bs-target={`#newProduct${category.id}`}
+              type="button"
+              role="tab"
+              aria-controls=""
+              aria-selected="true"
+            >
+              {category.name}
+            </a>
+          </li>
+        );
+      } else {
+        return "";
+      }
     });
   };
 

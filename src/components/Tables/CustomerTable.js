@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Space, Table, Button, Input } from "antd";
 import {
   SearchOutlined,
@@ -6,49 +6,59 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import { useDispatch, useSelector } from "react-redux";
+import { openDrawer } from "../../redux/actions/DrawerActions";
+import { OPEN_DRAWER } from "../../redux/constants/DrawerConstants";
+import FormAddUser from "../Form/FormAddUser";
 
-const dataSource = [
-  {
-    key: "1",
-    id: 1,
-    name: "Mike",
-    password: "password 1",
-    role: "admin",
-  },
-  {
-    key: "2",
-    id: 2,
-    name: "Store 1",
-    password: "password 2",
-    role: "store owner",
-  },
-  {
-    key: "3",
-    id: 3,
-    name: "User account 1",
-    password: "password 3",
-    role: "user",
-  },
-  {
-    key: "4",
-    id: 4,
-    name: "User account 2",
-    password: "password 4",
-    role: "user",
-  },
-  {
-    key: "5",
-    id: 5,
-    name: "Store 2",
-    password: "password 5",
-    role: "store owner",
-  },
-];
+// const dataSource = [
+//   {
+//     key: "1",
+//     id: 1,
+//     name: "Mike",
+//     password: "password 1",
+//     role: "admin",
+//   },
+//   {
+//     key: "2",
+//     id: 2,
+//     name: "Store 1",
+//     password: "password 2",
+//     role: "store owner",
+//   },
+//   {
+//     key: "3",
+//     id: 3,
+//     name: "User account 1",
+//     password: "password 3",
+//     role: "user",
+//   },
+//   {
+//     key: "4",
+//     id: 4,
+//     name: "User account 2",
+//     password: "password 4",
+//     role: "user",
+//   },
+//   {
+//     key: "5",
+//     id: 5,
+//     name: "Store 2",
+//     password: "password 5",
+//     role: "store owner",
+//   },
+// ];
 
 export default function CustomerTable(props) {
+  const { arrAccount } = useSelector((state) => state.AccountManageReducer);
+
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // Lấy tất cả account về
+  }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -206,9 +216,22 @@ export default function CustomerTable(props) {
   return (
     <div>
       <div className="mb-3">
-        <button className="btn btn-danger">ADD STORE OWNER</button>
+        <button
+          onClick={() => {
+            dispatch(openDrawer(OPEN_DRAWER, <FormAddUser />, "Add User"));
+          }}
+          className="btn btn-danger"
+        >
+          ADD ACCOUNT
+        </button>
       </div>
-      <Table columns={columns} dataSource={dataSource} />
+      <Table
+        rowKey={"id"}
+        columns={columns}
+        dataSource={arrAccount}
+        pagination={{ hideOnSinglePage: true }}
+        scroll={{ y: "600px" }}
+      />
     </div>
   );
 }

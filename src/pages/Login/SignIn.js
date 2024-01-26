@@ -4,25 +4,34 @@ import { useDispatch, useSelector } from "react-redux";
 import { signin_api } from "../../redux/actions/ActionsApi";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { setRoleAction } from "../../redux/actions/NormalActions";
+import {
+  isLoginAction,
+  setRoleAction,
+} from "../../redux/actions/NormalActions";
+// import { TOKEN } from "../../util/constants/settingSystem";
 
 export default function SignIn(props) {
-  const { isLogin, role } = useSelector((state) => state.IsLoginReducer);
+  const { isLogin, role_id } = useSelector((state) => state.IsLoginReducer);
   const navigate = useNavigate();
   useEffect(() => {
     if (isLogin) {
-      if (role === 0) {
-        navigate("/home");
-      } else {
-        navigate("/admin");
+      switch (role_id) {
+        case "1":
+          navigate("/home");
+          break;
+        case "2":
+          navigate("/admin");
+          break;
+        default:
+          break;
       }
     }
-  }, [isLogin]);
-
-  // state dùng để hiể thị alert-validate message
+  }, [isLogin, role_id, navigate]);
+  // state dùng để hiển thị alert-validate message
   const [userLogin, setUserLogin] = useState({
     email: "",
     password: "",
+    role_id: "1",
   });
 
   const [errors, setErrors] = useState({
@@ -95,7 +104,6 @@ export default function SignIn(props) {
   // dispatch lên redux saga => gọi api đăng nhập
   const handleSubmit = (e) => {
     e.preventDefault();
-
     let valid = true;
     let newErrors = { ...errors };
 
@@ -107,12 +115,6 @@ export default function SignIn(props) {
     }
 
     setErrors(newErrors);
-
-    // for (const key in errors) {
-    //   if (errors[key] !== "") {
-    //     valid = false;
-    //   }
-    // }
 
     if (valid) {
       // dispatch userLogin
@@ -134,7 +136,13 @@ export default function SignIn(props) {
         >
           <span className="login100-form-title-1">Sign In</span>
         </div>
-        <form className="login100-form validate-form" onSubmit={handleSubmit}>
+        <form
+          className="login100-form validate-form"
+          onSubmit={(e) => {
+            dispatch(setRoleAction(userLogin.role_id));
+            handleSubmit(e);
+          }}
+        >
           <div
             className={`wrap-input100 m-b-26`}
             style={{ borderBottom: "0px" }}
@@ -143,15 +151,16 @@ export default function SignIn(props) {
             <span className="label-input100">You are</span>
             <select
               className="form-select"
-              defaultValue={0}
+              name="role_id"
+              defaultValue={"1"}
               onChange={(e) => {
-                console.log(e.target.value);
-                // set role
+                // console.log(e.target.value);
                 dispatch(setRoleAction(e.target.value));
+                handleChange(e);
               }}
             >
-              <option value={0}>User</option>
-              <option value={1}>Admin</option>
+              <option value={"1"}>User</option>
+              <option value={"2"}>Admin</option>
             </select>
           </div>
           <div

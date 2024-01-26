@@ -3,8 +3,11 @@ import React from "react";
 import navBarStyle from "./NavBar.module.css";
 import { NavLink } from "react-router-dom";
 import clsx from "clsx";
+import { useSelector } from "react-redux";
 
 export default function NavBar(props) {
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
+
   //   console.log(navBarStyle);
   return (
     <nav
@@ -36,35 +39,22 @@ export default function NavBar(props) {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/hotdeals">
-                Hot Deals
-              </NavLink>
-            </li>
-            <li className="nav-item">
               <NavLink className="nav-link" to="/categories">
                 Categories
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/laptops">
-                Laptops
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/smartphones">
-                Smartphones
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/cameras">
-                Cameras
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/accessories">
-                Accessories
-              </NavLink>
-            </li>
+            {arrCategories?.map((category, index) => {
+              if (index <= 4) {
+                return (
+                  <li className="nav-item" key={index}>
+                    <NavLink className="nav-link" to={`/${category.name}`}>
+                      {category.name}
+                    </NavLink>
+                  </li>
+                );
+              }
+              return "";
+            })}
           </ul>
         </div>
       </div>

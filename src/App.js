@@ -11,11 +11,13 @@ import "slick-carousel/slick/slick-theme.css";
 import SignIn from "./pages/Login/SignIn";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import SignUp from "./pages/Login/SignUp";
+import DrawerHOC from "./HOC/DrawerHOC";
 
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
+        <DrawerHOC />
         <Routes>
           <Route exact path="/" element={<HomeTemplate />}>
             <Route exact path="/" element={<Home />} />

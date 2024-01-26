@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 // style.module.css
 import homeHeaderStyle from "./HomeHeader.module.css";
 // library
 import clsx from "clsx";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getCategories_api } from "../../../redux/actions/ActionsApi";
 
 export default function HomeHeader(props) {
   const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
+  const dispatch = useDispatch();
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
+
+  useEffect(() => {
+    dispatch(getCategories_api());
+  }, []);
+
   // console.log(homeHeaderStyle);
   return (
     <header>
@@ -62,9 +70,13 @@ export default function HomeHeader(props) {
               <div className={homeHeaderStyle.headerSearch}>
                 <form>
                   <select className={homeHeaderStyle.inputSelect}>
-                    <option value={0}>All Categories</option>
-                    <option value={1}>Category 01</option>
-                    <option value={1}>Category 02</option>
+                    {arrCategories?.map((category, index) => {
+                      return (
+                        <option key={index} value={category.id}>
+                          {category.name}
+                        </option>
+                      );
+                    })}
                   </select>
                   <input
                     className={clsx(homeHeaderStyle.input, "input")}

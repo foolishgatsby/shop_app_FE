@@ -1,24 +1,14 @@
-import { UPDATE_ALL_CATEGORIES } from "../constants/AdminConstants";
+import {
+  SET_EDIT_CATEGORY,
+  UPDATE_ALL_CATEGORIES,
+} from "../constants/CategoriesConstants";
 
 const initialState = {
-  arrCategories: [
-    {
-      id: 1,
-      name: "Đồ chơi người lớn",
-    },
-    {
-      id: 2,
-      name: "Đồ chơi trẻ em",
-    },
-    {
-      id: 3,
-      name: "Đồ Điện tử",
-    },
-    {
-      id: 4,
-      name: "Đồ gia dụng",
-    },
-  ],
+  arrCategories: [],
+  categoryEdit: {
+    id: "",
+    name: "",
+  },
 };
 
 export default (state = initialState, action) => {
@@ -26,7 +16,9 @@ export default (state = initialState, action) => {
     case UPDATE_ALL_CATEGORIES:
       state.arrCategories = action.arrCategories;
       return { ...state };
-
+    case SET_EDIT_CATEGORY:
+      state.categoryEdit = action.categoryEdit;
+      return { ...state };
     default:
       return state;
   }

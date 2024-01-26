@@ -59,14 +59,15 @@
 }
 
 .inputSelect {
-  padding: 0 15px;
+  padding: 0 10px;
   background: #fff;
   border: 1px solid #e4e7ed;
   height: 40px;
+  overflow-y: scroll;
 }
 
 .headerSearch form .input {
-  width: calc(100% - 260px);
+  width: calc(100% - 300px);
   margin-right: -4px;
 }
 

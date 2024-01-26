@@ -4,6 +4,8 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import ProductTableReducer from "./reducers/ProductTableReducer";
 import IsLoginReducer from "./reducers/IsLoginReducer";
 import AllCategoriesReducer from "./reducers/AllCategoriesReducer";
+import DrawerReducer from "./reducers/DrawerReducer";
+import AccountManageReducer from "./reducers/AccountManageReducer";
 
 // Middleware
 import createMiddleWareSaga from "redux-saga";
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
   ProductTableReducer,
   IsLoginReducer,
   AllCategoriesReducer,
+  DrawerReducer,
+  AccountManageReducer,
 });
 
 const store = createStore(rootReducer, applyMiddleware(middlewareSaga));

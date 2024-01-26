@@ -5,7 +5,7 @@ import NewProduct from "../../components/NewProduct/NewProduct";
 import HotDeal from "../../components/HotDeal/HotDeal";
 import NewsLetter from "../../components/NewsLetter/NewsLetter";
 
-export default function Home() {
+export default function Home(props) {
   return (
     <Fragment>
       <NavBar />
