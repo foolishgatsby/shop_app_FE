@@ -29,7 +29,8 @@ function* signInSaga(action) {
       );
     }
   } catch (error) {
-    console.log(error.response.data);
+    // console.log(error.response.data);
+    alert("Đăng nhập không thành công!\nKiểm tra lại thông tin đăng nhập");
   }
   // hide loading effect
 }

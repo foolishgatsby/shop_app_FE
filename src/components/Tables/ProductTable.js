@@ -8,15 +8,20 @@ import {
 import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
+import { openDrawer } from "../../redux/actions/DrawerActions";
+import { OPEN_DRAWER } from "../../redux/constants/DrawerConstants";
+import FormAddProduct from "../Form/FormAddProduct";
 
 export default function ProductTable(props) {
   const { productList } = useSelector((state) => state.ProductTableReducer);
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
 
-  // get product by category
-  // const { categoryId } = props;
   const dispatch = useDispatch();
 
-  // search function of table
+  const mapCategory = (category_id) => {
+    return arrCategories.find((category) => category.id === category_id).id;
+  };
+
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -150,10 +155,10 @@ export default function ProductTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Product Category",
-      dataIndex: "category",
-      key: "category",
-      ...getColumnSearchProps("category"),
+      title: "Product's Category",
+      dataIndex: "category_id",
+      key: "category_id",
+      ...getColumnSearchProps("category_id"),
     },
     {
       title: "Price",
@@ -164,20 +169,9 @@ export default function ProductTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Old price",
-      dataIndex: "oldprice",
-      key: "oldprice",
-      ...getColumnSearchProps("oldprice"),
-      sorter: (a, b) => a.oldprice - b.oldprice,
-      sortDirections: ["descend", "ascend"],
-    },
-    {
-      title: "Rating",
-      dataIndex: "rating",
-      key: "rating",
-      // ...getColumnSearchProps("rating"),
-      sorter: (a, b) => a.price - b.price,
-      sortDirections: ["descend", "ascend"],
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
     },
     {
       title: "",
@@ -200,7 +194,16 @@ export default function ProductTable(props) {
   return (
     <div style={{ maxHeight: "100vh" }}>
       <div className="mb-3">
-        <button className="btn btn-danger">ADD NEW PRODUCT</button>
+        <button
+          onClick={() => {
+            dispatch(
+              openDrawer(OPEN_DRAWER, <FormAddProduct />, "Add Product")
+            );
+          }}
+          className="btn btn-danger"
+        >
+          ADD NEW PRODUCT
+        </button>
       </div>
       <Table
         rowKey={"id"}

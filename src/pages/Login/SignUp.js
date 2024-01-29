@@ -174,7 +174,7 @@ export default function SignUp(props) {
 
     if (valid) {
       // alert("Tạo thành công người dùng mới");
-      dispatch(signup_api(newUser));
+      dispatch(signup_api(newUser, "1"));
     }
 
     resetValue();

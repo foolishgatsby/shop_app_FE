@@ -164,7 +164,7 @@ export default function DashboardTemplate(props) {
                 aria-labelledby={`admin-pills-${category.id}-tab`}
                 tabIndex="0"
               >
-                <ProductTable />
+                <ProductTable category={category} />
               </div>
             );
           })}

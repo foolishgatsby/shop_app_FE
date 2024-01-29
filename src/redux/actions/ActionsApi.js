@@ -9,6 +9,15 @@ import {
   EDIT_CATEGORY_API,
   GET_ALL_CATEGORIES_API,
 } from "../constants/CategoriesConstants";
+import { ADD_PRODUCT_API } from "../constants/ProductConstants";
+
+
+export const addProduct_api = (newProduct) => {
+return {
+  type: ADD_PRODUCT_API,
+  newProduct,
+}
+}
 
 export const getProductByCategory_api = (categoryId) => {
   return {
@@ -24,11 +33,11 @@ export const signin_api = (userLogin) => {
   };
 };
 
-export const signup_api = (newUser, role_id = 1) => {
+export const signup_api = (newUser, role_id = "1") => {
   let userRegister = { ...newUser, role_id };
   return {
     type: USER_REGISTER_API,
-    userRegister,
+    userRegister: userRegister,
   };
 };
 
