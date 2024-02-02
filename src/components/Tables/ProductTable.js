@@ -7,20 +7,26 @@ import {
 } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
+import {
+  deleteCategory_api,
+  deleteProduct_api,
+  getProductByCategory_api,
+} from "../../redux/actions/ActionsApi";
 import { openDrawer } from "../../redux/actions/DrawerActions";
 import { OPEN_DRAWER } from "../../redux/constants/DrawerConstants";
 import FormAddProduct from "../Form/FormAddProduct";
+import { setEditProduct } from "../../redux/actions/NormalActions";
+import FormEditProduct from "../Form/FormEditProduct";
 
 export default function ProductTable(props) {
-  const { productList } = useSelector((state) => state.ProductTableReducer);
-  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
+  const { productList, loading } = useSelector(
+    (state) => state.ProductTableReducer
+  );
 
   const dispatch = useDispatch();
 
-  const mapCategory = (category_id) => {
-    return arrCategories.find((category) => category.id === category_id).id;
-  };
+  // load dữ liệu
+  useEffect(() => {}, []);
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -179,10 +185,26 @@ export default function ProductTable(props) {
       width: "10%",
       render: (_, record) => (
         <Space size="middle">
-          <button className="btn btn-primary">
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              // record mang thông tin product
+              // gọi api mở drawer
+              dispatch(
+                openDrawer(OPEN_DRAWER, <FormEditProduct />, "Edit Product")
+              );
+              // dispatch action set edit product
+              dispatch(setEditProduct(record));
+            }}
+          >
             <EditOutlined />
           </button>
-          <button className="btn btn-danger">
+          <button
+            className="btn btn-danger"
+            onClick={() => {
+              dispatch(deleteProduct_api(record.id, record.category_id));
+            }}
+          >
             <DeleteOutlined />
           </button>
         </Space>
@@ -211,6 +233,7 @@ export default function ProductTable(props) {
         dataSource={productList}
         pagination={{ hideOnSinglePage: true }}
         scroll={{ y: "600px" }}
+        loading={loading}
       />
     </div>
   );

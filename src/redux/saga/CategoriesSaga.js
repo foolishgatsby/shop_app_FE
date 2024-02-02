@@ -8,6 +8,7 @@ import {
 import { categoriesServices } from "../../services/CategoriesServices";
 import { STATUS_CODE } from "../../util/constants/settingSystem";
 import { updateAllCate } from "../actions/NormalActions";
+import { data } from "jquery";
 
 // Get All Categories saga action
 function* getAllCategoriesSaga(action) {
@@ -32,7 +33,7 @@ export function* watchGetAllCategoriesSagaAction() {
 // Delete Category saga action
 function* deleteCategorySaga(action) {
   try {
-    const { status } = yield call(() =>
+    const { data, status } = yield call(() =>
       categoriesServices.deleteCategory(action.id)
     );
 
@@ -40,6 +41,7 @@ function* deleteCategorySaga(action) {
 
     // Cập nhật lại categories
     if (status === STATUS_CODE.SUCCESS) {
+      alert(data);
       yield put({ type: GET_ALL_CATEGORIES_API });
     }
   } catch (error) {

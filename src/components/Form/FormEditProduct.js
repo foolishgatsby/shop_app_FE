@@ -6,31 +6,26 @@ import { withFormik } from "formik";
 import * as Yup from "yup";
 import {
   addCategory_api,
-  addProduct_api,
+  editCategory_api,
+  editProduct_api,
 } from "../../redux/actions/ActionsApi";
 const { Option } = Select;
 
-function FormAddProduct(props) {
+function FormEditProduct(props) {
+  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
   // console.log(props);
 
   const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
     props;
 
-  const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
-  const { temp_category_id } = useSelector(
-    (state) => state.ProductTableReducer
-  );
-  const onChangeSelect = (value) => {
-    props.setFieldValue("category_id", value);
-  };
-  // console.log(values);
+  //   console.log(values);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
     //load sự kiện submit form
     dispatch({
-      type: "SET_SUBMIT_ADD_PRODUCT",
+      type: "SET_SUBMIT_EDIT_PRODUCT",
       submitFunc: handleSubmit,
     });
   }, []);
@@ -38,11 +33,16 @@ function FormAddProduct(props) {
   return (
     <Form layout="vertical" hideRequiredMark onFinish={handleSubmit}>
       <Row gutter={16}>
-        <Col span={24}>
+        <Col span={7}>
+          <Form.Item name="id" label="Product ID" initialValue={values.id}>
+            <Input placeholder="Product Id" disabled />
+          </Form.Item>
+        </Col>
+        <Col span={17}>
           <Form.Item
             name="name"
             label="Product's Name"
-            initialValue={""}
+            initialValue={values.name}
             rules={[
               {
                 required: true,
@@ -50,43 +50,29 @@ function FormAddProduct(props) {
               },
             ]}
           >
-            <Input placeholder="Product's Name" onChange={handleChange} />
+            <Input placeholder="Product Name" onChange={handleChange} />
           </Form.Item>
         </Col>
       </Row>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item
             name="category_id"
-            label="Product's category"
-            initialValue={temp_category_id}
-            rules={[
-              {
-                required: true,
-                message: "Please enter product's price",
-              },
-            ]}
+            label="Category"
+            initialValue={values.category_id}
           >
-            <Select
-              disabled
-              placeholder="Select Category"
-              onChange={onChangeSelect}
-            >
-              {arrCategories.map((category, index) => {
-                return (
-                  <Option key={index} value={category.id}>
-                    {category.name}
-                  </Option>
-                );
+            <Select placeholder="Category select" onChange={handleChange}>
+              {arrCategories.map((category) => {
+                return <Option value={category.id}>{category.name}</Option>;
               })}
             </Select>
           </Form.Item>
         </Col>
-        <Col span={16}>
+        <Col span={12}>
           <Form.Item
             name="price"
-            label="Product's price"
-            initialValue={""}
+            label="Product's Price"
+            initialValue={values.price}
             rules={[
               {
                 required: true,
@@ -103,7 +89,7 @@ function FormAddProduct(props) {
           <Form.Item
             name="description"
             label="Description"
-            initialValue={""}
+            initialValue={values.description}
             rules={[
               {
                 required: true,
@@ -119,38 +105,36 @@ function FormAddProduct(props) {
   );
 }
 
-const AddProductFormik = withFormik({
+const EditProductFormik = withFormik({
   enableReinitialize: true,
   mapPropsToValues: (props) => {
-    console.log(props);
     return {
-      name: "",
-      price: "",
-      description: "",
-      category_id: props.category_id,
+      id: props.editProduct.id,
+      name: props.editProduct.name,
+      price: props.editProduct.price,
+      category_id: props.editProduct.category_id,
+      description: props.editProduct.description,
     };
   },
 
   validationSchema: Yup.object().shape({}),
   handleSubmit: (values, { props, setSubmitting }) => {
     // nhấn submit của form => dispatch add category api
+    // console.log(props);
     // console.log(values);
-    const { name, price, description, category_id } = values;
-    const newProduct = {
-      name: name,
-      price: price,
-      description: description,
-      category_id: category_id,
+    const editProduct = {
+      name: values.id,
+      price: values.price,
+      category_id: values.category_id,
+      description: values.description,
     };
-    props.dispatch(addProduct_api(newProduct));
+    props.dispatch(editProduct_api(values.id, editProduct));
   },
-  displayName: "AddCategoryFormik",
-})(FormAddProduct);
+  displayName: "EditProductFormik",
+})(FormEditProduct);
 
-const mapStatetoProps = (state) => {
-  return {
-    category_id: state.ProductTableReducer.temp_category_id,
-  };
+const mapStateToProps = (state) => {
+  return { editProduct: state.ProductTableReducer.editProduct };
 };
 
-export default connect(mapStatetoProps)(AddProductFormik);
+export default connect(mapStateToProps)(EditProductFormik);

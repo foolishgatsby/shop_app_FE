@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import * as SignInSaga from "./SignInSaga";
 import * as SignUpSaga from "./SignUpSaga";
 import * as CategoriesSaga from "./CategoriesSaga";
+import * as ProductSaga from "./ProductSaga";
 
 export function* rootSaga() {
   yield all([
@@ -11,5 +12,9 @@ export function* rootSaga() {
     CategoriesSaga.watchDeleteCategorySagaAction(),
     CategoriesSaga.watchAddCategorySagaAction(),
     CategoriesSaga.watchEditCategorySagaAction(),
+    ProductSaga.watchGetProductByCategorySagaAction(),
+    ProductSaga.watchAddProductSagaAction(),
+    ProductSaga.watchDeleteProductSagaAction(),
+    ProductSaga.watchEditProductSagaAction(),
   ]);
 }

@@ -7,6 +7,7 @@ import {
   SET_EDIT_CATEGORY,
   UPDATE_ALL_CATEGORIES,
 } from "../constants/CategoriesConstants";
+import { SET_EDIT_PRODUCT } from "../constants/ProductConstants";
 
 export const updateProductTable = (productList) => {
   return {
@@ -45,5 +46,12 @@ export const setEditCategory = (id, name) => {
       id: id,
       name: name,
     },
+  };
+};
+
+export const setEditProduct = (editProduct) => {
+  return {
+    type: SET_EDIT_PRODUCT,
+    editProduct,
   };
 };

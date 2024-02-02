@@ -9,15 +9,18 @@ import {
   EDIT_CATEGORY_API,
   GET_ALL_CATEGORIES_API,
 } from "../constants/CategoriesConstants";
-import { ADD_PRODUCT_API } from "../constants/ProductConstants";
-
+import {
+  ADD_PRODUCT_API,
+  DELETE_PRODUCT_API,
+  EDIT_PRODUCT_API,
+} from "../constants/ProductConstants";
 
 export const addProduct_api = (newProduct) => {
-return {
-  type: ADD_PRODUCT_API,
-  newProduct,
-}
-}
+  return {
+    type: ADD_PRODUCT_API,
+    newProduct,
+  };
+};
 
 export const getProductByCategory_api = (categoryId) => {
   return {
@@ -71,6 +74,18 @@ export const editCategory_api = (id, name) => {
   };
 };
 
-export const getAccount_api = () => {
-  return {};
+export const deleteProduct_api = (id, category_id) => {
+  return {
+    type: DELETE_PRODUCT_API,
+    id: id,
+    category_id: category_id,
+  };
+};
+
+export const editProduct_api = (id, editProduct) => {
+  return {
+    type: EDIT_PRODUCT_API,
+    id: id,
+    editProduct: editProduct,
+  };
 };

@@ -6,6 +6,10 @@ class ProductServices extends Service {
    * method: get
    * url: http://localhost:1702/api/v1/products/getAll
    */
+  getProductByCategory = (category_id) => {
+    return this.get(`products/category/${category_id}`);
+  };
+
   /**
    * get product by ID
     method: get,
@@ -27,6 +31,10 @@ class ProductServices extends Service {
    * method: del
    * url: http://localhost:1702/api/v1/products/${product_id}
    */
+  deleteProduct = (id) => {
+    return this.delete(`products/${id}`);
+  };
+
   /**
    * add product
    * 27/01/2024
@@ -39,6 +47,10 @@ class ProductServices extends Service {
    * "category_id": 3
    * }
    */
+  addProduct = (newProduct) => {
+    return this.post(`products`, newProduct);
+  };
+
   /**
    * update product
    * method: put
@@ -50,6 +62,10 @@ class ProductServices extends Service {
     "category_id": 7
    * }
    */
+  editProduct = (id, editProduct) => {
+    return this.put(`products/${id}`, editProduct);
+  };
+
   /**
    * post img
    */

@@ -1,216 +1,23 @@
 import { UPDATE_PRODUCT_TABLE } from "../constants/AdminConstants";
+import { SET_EDIT_PRODUCT } from "../constants/ProductConstants";
 
 const initialState = {
-  productList: [
-    {
-      id: 1,
-      name: "Intelligent Linen Wallet",
-      price: "6387410",
-      thumbnail: "",
-      description: "Ad at dolor saepe.",
-      category_id: 1,
-    },
-    {
-      id: 2,
-      name: "macbook air 13 inch 2023 M2",
-      price: "123.45",
-      thumbnail: null,
-      description: "this is a test product",
-      category_id: 2,
-    },
-    {
-      id: 3,
-      name: "Durable Cotton Shoes",
-      price: "850038",
-      thumbnail: "",
-      description: "Qui temporibus blanditiis maxime aut.",
-      category_id: 2,
-    },
-    {
-      id: 5,
-      name: "Heavy Duty Silk Pants",
-      price: "10962000",
-      thumbnail: "",
-      description: "Corporis repudiandae assumenda.",
-      category_id: 2,
-    },
-    {
-      id: 6,
-      name: "Fantastic Steel Car",
-      price: "47389400",
-      thumbnail: "",
-      description: "Eum reiciendis maiores.",
-      category_id: 1,
-    },
-    {
-      id: 7,
-      name: "Small Aluminum Chair",
-      price: "54225900",
-      thumbnail: "",
-      description: "Porro optio quia.",
-      category_id: 2,
-    },
-    {
-      id: 8,
-      name: "Small Linen Keyboard",
-      price: "80923600",
-      thumbnail: "",
-      description:
-        "Asperiores porro repellendus accusamus delectus dolor molestias.",
-      category_id: 2,
-    },
-    {
-      id: 9,
-      name: "Incredible Iron Hat",
-      price: "4571610",
-      thumbnail: "",
-      description: "Aliquam sit laborum inventore eius.",
-      category_id: 1,
-    },
-    {
-      id: 10,
-      name: "macbook pro 13 inch 2023 M2",
-      price: "123.45",
-      thumbnail: null,
-      description: "Cá chà bu",
-      category_id: 2,
-    },
-    {
-      id: 11,
-      name: "Intelligent Silk Plate",
-      price: "59396000",
-      thumbnail: "",
-      description: "Esse aut molestias aut quam.",
-      category_id: 2,
-    },
-    {
-      id: 12,
-      name: "Synergistic Bronze Knife",
-      price: "29347000",
-      thumbnail: "",
-      description: "Perferendis enim ea labore rerum aut.",
-      category_id: 1,
-    },
-    {
-      id: 13,
-      name: "Practical Wooden Bottle",
-      price: "53654600",
-      thumbnail: "",
-      description: "Omnis aut facilis iste aliquam.",
-      category_id: 2,
-    },
-    {
-      id: 14,
-      name: "Incredible Steel Pants",
-      price: "76514200",
-      thumbnail: "",
-      description: "Reiciendis cum modi aliquam dolores.",
-      category_id: 1,
-    },
-    {
-      id: 15,
-      name: "Mediocre Linen Bottle",
-      price: "44762100",
-      thumbnail: "",
-      description: "Et nostrum porro enim vel.",
-      category_id: 1,
-    },
-    {
-      id: 16,
-      name: "Synergistic Bronze Shirt",
-      price: "13242600",
-      thumbnail: "",
-      description: "Similique sapiente et suscipit omnis iste dolorem.",
-      category_id: 2,
-    },
-    {
-      id: 17,
-      name: "Mediocre Aluminum Chair",
-      price: "42518800",
-      thumbnail: "",
-      description: "Eveniet est eveniet iure numquam.",
-      category_id: 2,
-    },
-    {
-      id: 18,
-      name: "Sleek Leather Knife",
-      price: "54923900",
-      thumbnail: "",
-      description: "At aut nulla unde qui quam.",
-      category_id: 2,
-    },
-    {
-      id: 19,
-      name: "Enormous Paper Plate",
-      price: "81091300",
-      thumbnail: "",
-      description: "Nemo et eaque nesciunt et aliquid ut maiores.",
-      category_id: 1,
-    },
-    {
-      id: 20,
-      name: "Rustic Steel Plate",
-      price: "53654800",
-      thumbnail: "",
-      description: "Rerum rerum sequi.",
-      category_id: 3,
-    },
-    {
-      id: 21,
-      name: "Synergistic Rubber Clock",
-      price: "40434000",
-      thumbnail: "",
-      description: "Nulla numquam perferendis et.",
-      category_id: 3,
-    },
-    {
-      id: 22,
-      name: "Practical Wool Clock",
-      price: "15165300",
-      thumbnail: "",
-      description: "Delectus est amet consectetur iste maxime quis.",
-      category_id: 2,
-    },
-    {
-      id: 23,
-      name: "Incredible Linen Keyboard",
-      price: "21165400",
-      thumbnail: "",
-      description: "Deserunt exercitationem deserunt soluta et nesciunt error.",
-      category_id: 1,
-    },
-    {
-      id: 24,
-      name: "Enormous Bronze Knife",
-      price: "36939800",
-      thumbnail: "",
-      description: "Debitis ipsa ut ab ipsum.",
-      category_id: 1,
-    },
-    {
-      id: 25,
-      name: "Gorgeous Steel Bench",
-      price: "80399800",
-      thumbnail: "",
-      description: "Et unde nesciunt voluptate est neque cupiditate.",
-      category_id: 1,
-    },
-    {
-      id: 26,
-      name: "Lightweight Aluminum Pants",
-      price: "51067000",
-      thumbnail: "",
-      description: "Exercitationem cupiditate eos optio natus aliquid aut.",
-      category_id: 2,
-    },
-  ],
+  temp_category_id: "",
+  productList: [],
+  editProduct: {},
+  loading: false,
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PRODUCT_TABLE:
       return { ...state, productList: action.productList };
-
+    case "SET_LOADING":
+      return { ...state, loading: action.loading };
+    case "SET_TEMP_CATEGORY":
+      return { ...state, temp_category_id: action.temp_category_id };
+    case SET_EDIT_PRODUCT:
+      return { ...state, editProduct: action.editProduct };
     default:
       return state;
   }

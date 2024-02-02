@@ -120,6 +120,18 @@ export default function DashboardTemplate(props) {
                     aria-selected="false"
                     style={{ color: "white", width: "100%" }}
                     onClick={() => {
+                      // temp variable to add product
+                      dispatch({
+                        type: "SET_TEMP_CATEGORY",
+                        temp_category_id: category.id,
+                      });
+
+                      // loading effect
+                      dispatch({
+                        type: "SET_LOADING",
+                        loading: true,
+                      });
+
                       // lấy product theo category.id
                       dispatch(getProductByCategory_api(category.id));
                     }}
