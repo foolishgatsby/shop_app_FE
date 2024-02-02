@@ -13,6 +13,7 @@ import {
   ADD_PRODUCT_API,
   DELETE_PRODUCT_API,
   EDIT_PRODUCT_API,
+  GET_PRODUCT_BY_ID_API,
 } from "../constants/ProductConstants";
 
 export const addProduct_api = (newProduct) => {
@@ -87,5 +88,12 @@ export const editProduct_api = (id, editProduct) => {
     type: EDIT_PRODUCT_API,
     id: id,
     editProduct: editProduct,
+  };
+};
+
+export const getProductById_api = (id) => {
+  return {
+    type: GET_PRODUCT_BY_ID_API,
+    id,
   };
 };

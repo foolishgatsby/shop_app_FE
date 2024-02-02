@@ -8,6 +8,7 @@ import {
   ADD_PRODUCT_API,
   DELETE_PRODUCT_API,
   EDIT_PRODUCT_API,
+  GET_PRODUCT_BY_ID_API,
 } from "../constants/ProductConstants";
 import { CLOSE_DRAWER } from "../constants/DrawerConstants";
 import { getProductByCategory_api } from "../actions/ActionsApi";
@@ -106,4 +107,46 @@ function* editProductSaga(action) {
 
 export function* watchEditProductSagaAction() {
   yield takeLatest(EDIT_PRODUCT_API, editProductSaga);
+}
+
+function* getNewProductSaga(action) {
+  try {
+    const { data, status } = yield call(() => productServices.getNewProduct());
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: "UPDATE_NEW_PRODUCT",
+        newProduct: data.products,
+      });
+      yield put({
+        type: "SET_LOADING",
+        loading: false,
+      });
+    }
+  } catch (error) {
+    console.log(error.response.data);
+  }
+}
+
+export function* watchGetNewProductSagaAction() {
+  yield takeLatest("GET_NEW_PRODUCT", getNewProductSaga);
+}
+
+function* getProductByIdSaga(action) {
+  try {
+    const { data, status } = yield call(() =>
+      productServices.getProductById(action.id)
+    );
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: "UPDATE_PRODUCT_DETAIL",
+        productDetail: data,
+      });
+    }
+  } catch (error) {
+    console.log(error.response.data);
+  }
+}
+
+export function* watchGetProductByIdSagaAction() {
+  yield takeLatest(GET_PRODUCT_BY_ID_API, getProductByIdSaga);
 }

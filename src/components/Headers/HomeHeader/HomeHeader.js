@@ -6,15 +6,45 @@ import clsx from "clsx";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories_api } from "../../../redux/actions/ActionsApi";
+import { DOMAIN } from "../../../util/constants/settingSystem";
 
 export default function HomeHeader(props) {
   const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
   const dispatch = useDispatch();
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
-
+  const { cartList, numOfItem } = useSelector((state) => state.CartReducer);
   useEffect(() => {
     dispatch(getCategories_api());
   }, []);
+
+  const renderCart = () => {
+    return cartList?.map(({ product, qty }, index) => {
+      return (
+        <div
+          key={index}
+          className={clsx(homeHeaderStyle.productWidget, "product-widget")}
+        >
+          <div className={clsx(homeHeaderStyle.productImg, "product-img")}>
+            <img
+              src={`${DOMAIN}/products/images/${product.thumbnail}`}
+              alt="product"
+            />
+          </div>
+          <div className={clsx(homeHeaderStyle.productBody, "product-body")}>
+            <h3 className="product-name">
+              <a href="#">{product.name}</a>
+            </h3>
+            <h4 className={clsx(homeHeaderStyle.productPrice, "product-price")}>
+              <span className="qty">${qty}x</span>${product.price}
+            </h4>
+          </div>
+          <button className="delete">
+            <i className="fa fa-close" />
+          </button>
+        </div>
+      );
+    });
+  };
 
   // console.log(homeHeaderStyle);
   return (
@@ -58,12 +88,12 @@ export default function HomeHeader(props) {
           <div className="row">
             <div className="col-12 col-lg-3 d-flex justify-content-center d-lg-block">
               <div className={homeHeaderStyle.headerLogo}>
-                <a href="#" className={homeHeaderStyle.logo}>
+                <NavLink to={"/"} className={homeHeaderStyle.logo}>
                   <img
                     src={require("../../../assets/img/logo.png.webp")}
                     alt="logo"
                   />
-                </a>
+                </NavLink>
               </div>
             </div>
             <div className="col-12 col-lg-6">
@@ -119,91 +149,16 @@ export default function HomeHeader(props) {
                     <div
                       className={clsx(homeHeaderStyle.cartList, "cart-list")}
                     >
-                      <div
-                        className={clsx(
-                          homeHeaderStyle.productWidget,
-                          "product-widget"
-                        )}
-                      >
-                        <div
-                          className={clsx(
-                            homeHeaderStyle.productImg,
-                            "product-img"
-                          )}
-                        >
-                          <img
-                            src={require("../../../assets/img/product01.png.webp")}
-                            alt="product"
-                          />
-                        </div>
-                        <div
-                          className={clsx(
-                            homeHeaderStyle.productBody,
-                            "product-body"
-                          )}
-                        >
-                          <h3 className="product-name">
-                            <a href="#">product name goes here</a>
-                          </h3>
-                          <h4
-                            className={clsx(
-                              homeHeaderStyle.productPrice,
-                              "product-price"
-                            )}
-                          >
-                            <span className="qty">1x</span>$980.00
-                          </h4>
-                        </div>
-                        <button className="delete">
-                          <i className="fa fa-close" />
-                        </button>
-                      </div>
-                      <div
-                        className={clsx(
-                          homeHeaderStyle.productWidget,
-                          "product-widget"
-                        )}
-                      >
-                        <div
-                          className={clsx(
-                            homeHeaderStyle.productImg,
-                            "product-img"
-                          )}
-                        >
-                          <img
-                            src={require("../../../assets/img/product02.png.webp")}
-                            alt="product"
-                          />
-                        </div>
-                        <div
-                          className={clsx(
-                            homeHeaderStyle.productBody,
-                            "product-body"
-                          )}
-                        >
-                          <h3 className="product-name">
-                            <a href="#">product name goes here</a>
-                          </h3>
-                          <h4
-                            className={clsx(
-                              homeHeaderStyle.productPrice,
-                              "product-price"
-                            )}
-                          >
-                            <span className="qty">3x</span>$980.00
-                          </h4>
-                        </div>
-                        <button className="delete">
-                          <i className="fa fa-close" />
-                        </button>
-                      </div>
+                      {renderCart()}
                     </div>
                     <div className={homeHeaderStyle.cartSummary}>
-                      <small>3 Item(s) selected</small>
+                      <small>
+                        {numOfItem} Item{numOfItem > 1 ? "(s)" : ""} selected
+                      </small>
                       <h5 style={{ fontSize: "12px" }}>SUBTOTAL: $2940.00</h5>
                     </div>
                     <div className={homeHeaderStyle.cartBtns}>
-                      <a href="#">View Cart</a>
+                      <NavLink to={"/cart"}>View Cart</NavLink>
                       <a href="#">
                         Checkout <i className="fa fa-arrow-circle-right" />
                       </a>

@@ -12,6 +12,7 @@ import SignIn from "./pages/Login/SignIn";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import SignUp from "./pages/Login/SignUp";
 import DrawerHOC from "./HOC/DrawerHOC";
+import CategoryTemplate from "./templates/Category/CategoryTemplate";
 
 function App() {
   return (
@@ -22,7 +23,16 @@ function App() {
           <Route exact path="/" element={<HomeTemplate />}>
             <Route exact path="/" element={<Home />} />
             <Route exact path="/home" element={<Home />} />
-            <Route exact path="/productdetail" element={<ProductDetail />} />
+            <Route
+              exact
+              path="/productdetail/:id"
+              element={<ProductDetail />}
+            />
+            <Route
+              exact
+              path="/category/:category_id"
+              element={<CategoryTemplate />}
+            />
           </Route>
           <Route exact path="/users/signin" element={<SignIn />} />
           <Route exact path="/users/signup" element={<SignUp />} />

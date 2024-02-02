@@ -6,6 +6,8 @@ const initialState = {
   productList: [],
   editProduct: {},
   loading: false,
+  newProduct: [],
+  productDetail: {},
 };
 
 export default (state = initialState, action) => {
@@ -18,6 +20,10 @@ export default (state = initialState, action) => {
       return { ...state, temp_category_id: action.temp_category_id };
     case SET_EDIT_PRODUCT:
       return { ...state, editProduct: action.editProduct };
+    case "UPDATE_NEW_PRODUCT":
+      return { ...state, newProduct: action.newProduct };
+    case "UPDATE_PRODUCT_DETAIL":
+      return { ...state, productDetail: action.productDetail };
     default:
       return state;
   }

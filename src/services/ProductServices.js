@@ -1,8 +1,12 @@
 import { Service } from "./Service";
 
 class ProductServices extends Service {
+  getNewProduct = () => {
+    return this.get(`products/all`);
+  };
+
   /**
-   * get product
+   * get product by categry
    * method: get
    * url: http://localhost:1702/api/v1/products/getAll
    */
@@ -14,18 +18,18 @@ class ProductServices extends Service {
    * get product by ID
     method: get,
     url: http://localhost:1702/api/v1/products/${id}
-    get product by category_id
+    get product by id
    */
+  getProductById = (id) => {
+    return this.get(`products/${id}`);
+  };
+
   /**
    * get product img
    * method: get
    * url: http://localhost:1702/api/v1/products/images/2c0fd7d3-1c1d-4fe7-b6cb-49e31b6f7ba7_macbooktest1.jpg
    */
-  /**
-   * get product by category_id
-   * method: get
-   * url: http://localhost:1702/api/v1/products/category/${category_id}
-   */
+
   /**
    * delete product
    * method: del

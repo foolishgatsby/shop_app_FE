@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProductDetail.css";
 import { Progress } from "antd";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductById_api } from "../../redux/actions/ActionsApi";
+import { DOMAIN } from "../../util/constants/settingSystem";
 
 export default function ProductDetail(props) {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { productDetail } = useSelector((state) => state.ProductTableReducer);
+  useEffect(() => {
+    // dispatch get product by id
+    dispatch(getProductById_api(id));
+  }, []);
   const [qty, setQty] = useState(1);
 
   const increaseQty = () => {
@@ -22,7 +33,7 @@ export default function ProductDetail(props) {
   return (
     <div className="container section">
       <div className="row">
-        <div className="col-12 col-lg-8">
+        <div className="col-12 col-md-6 col-lg-7">
           <div
             className="p-3"
             style={{
@@ -32,90 +43,69 @@ export default function ProductDetail(props) {
                 "0 1px 2px 0 rgba(60,64,67,.1), 0 2px 6px 2px rgba(60,64,67,.15)",
             }}
           >
-            <div className="row">
-              <div className="col-12 col-lg-6">
+            <div className="row pb-5">
+              <div className="col-12">
                 <div
                   id="productCarousel"
                   className="carousel slide"
                   data-bs-ride="carousel"
                 >
-                  <div className="carousel-indicators mb-0">
-                    <button
-                      style={{ width: "50px" }}
-                      type="button"
-                      data-bs-target="#productCarousel"
-                      data-bs-slide-to="0"
-                      className="active"
-                      aria-current="true"
-                      aria-label="Slide 1"
-                    >
-                      <img
-                        style={{
-                          border: "0.5px solid #000",
-                          borderRadius: "10px",
-                        }}
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="First slide"
-                      />
-                    </button>
-                    <button
-                      style={{ width: "50px" }}
-                      type="button"
-                      data-bs-target="#productCarousel"
-                      data-bs-slide-to="1"
-                      aria-label="Slide 2"
-                    >
-                      <img
-                        style={{
-                          border: "0.5px solid #000",
-                          borderRadius: "10px",
-                        }}
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="Second slide"
-                      />
-                    </button>
-                    <button
-                      style={{ width: "50px" }}
-                      type="button"
-                      data-bs-target="#productCarousel"
-                      data-bs-slide-to="2"
-                      aria-label="Slide 3"
-                    >
-                      <img
-                        style={{
-                          border: "0.5px solid #000",
-                          borderRadius: "10px",
-                        }}
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="Third slide"
-                      />
-                    </button>
+                  <div
+                    className="carousel-indicators mb-0"
+                    style={{ bottom: "-20px" }}
+                  >
+                    {productDetail.product_images?.map((img, index) => {
+                      return (
+                        <button
+                          key={index}
+                          style={{ width: "50px" }}
+                          type="button"
+                          data-bs-target="#productCarousel"
+                          data-bs-slide-to={index}
+                          className={index === 0 ? "active" : ""}
+                          aria-current={index === 0 ? "true" : ""}
+                          aria-label={`Slide ${index + 1}`}
+                        >
+                          <img
+                            style={{
+                              border: "0.5px solid #000",
+                              borderRadius: "10px",
+                              height: "50px",
+                            }}
+                            src={`${DOMAIN}/products/images/${img.image_url}`}
+                            className="w-100 d-block"
+                            alt={`${index + 1} slide`}
+                          />
+                        </button>
+                      );
+                    })}
                   </div>
                   <div className="carousel-inner" role="listbox">
-                    <div className="carousel-item active">
-                      <img
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="First slide"
-                      />
-                    </div>
-                    <div className="carousel-item">
-                      <img
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="Second slide"
-                      />
-                    </div>
-                    <div className="carousel-item">
-                      <img
-                        src={require("../../assets/img/product01.png.webp")}
-                        className="w-100 d-block"
-                        alt="Third slide"
-                      />
-                    </div>
+                    {productDetail.product_images?.map((img, index) => {
+                      if (index === 0) {
+                        return (
+                          <div key={index} className={`carousel-item active`}>
+                            <img
+                              style={{ height: "600px" }}
+                              src={`${DOMAIN}/products/images/${img.image_url}`}
+                              className="w-100 d-block"
+                              alt={`${index + 1} slide`}
+                            />
+                          </div>
+                        );
+                      } else {
+                        return (
+                          <div key={index} className={`carousel-item`}>
+                            <img
+                              style={{ height: "600px" }}
+                              src={`${DOMAIN}/products/images/${img.image_url}`}
+                              className="w-100 d-block"
+                              alt={`${index + 1} slide`}
+                            />
+                          </div>
+                        );
+                      }
+                    })}
                   </div>
                   <button
                     className="carousel-control-prev"
@@ -157,62 +147,11 @@ export default function ProductDetail(props) {
                   </button>
                 </div>
               </div>
-              <div className="col-12 col-lg-6 mt-5 mt-lg-0">
-                <h3 className="fw-normal">Thông số kỹ thuật</h3>
-                <table className="table table-striped">
-                  <tbody>
-                    <tr>
-                      <td>Kích thước màn</td>
-                      <td>14 inches</td>
-                    </tr>
-                    <tr>
-                      <td>Loại card đồ hoạ</td>
-                      <td>AMD Radeon Graphics</td>
-                    </tr>
-                    <tr>
-                      <td>Ram</td>
-                      <td>LPDDR4X Onboard</td>
-                    </tr>
-                    <tr>
-                      <td>Ổ cứng</td>
-                      <td>512GB M.2 NVMe PCIe 3.0 SSD</td>
-                    </tr>
-                    <tr>
-                      <td>Pin</td>
-                      <td>75WHrs, 2S2P, 4-cell Li-ion</td>
-                    </tr>
-                    <tr>
-                      <td>Hệ điều hành</td>
-                      <td>Windows 11 Home</td>
-                    </tr>
-                    <tr>
-                      <td>Độ phân giải màn hình</td>
-                      <td>2880 x 1800 pixels</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <div className="text-center mb-3">
-                  <button
-                    type="button"
-                    className="btn w-100 btn-product-detail
-                    d-flex justify-content-center align-items-baseline"
-                    style={{ border: "1px solid #000" }}
-                    data-bs-toggle="modal"
-                    data-bs-target="#modal-product-detail"
-                  >
-                    Xem cấu hình chi tiết
-                    <i
-                      className="fa fa-angle-down"
-                      style={{ fontSize: "16px" }}
-                    />
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
-        <div className="col-12 col-lg-4">
-          <h3 className="mb-2">Laptop Asus Zenbook 14 OLED UM3402YA-KM405W</h3>
+        <div className="col-12 col-md-6 col-lg-5">
+          <h3 className="mb-2">{productDetail.name}</h3>
           <div className="product-rating mb-3">
             <i className="fa fa-star" style={{ color: "#ef233c" }} />
             <i className="fa fa-star" style={{ color: "#ef233c" }} />
@@ -221,15 +160,13 @@ export default function ProductDetail(props) {
             <i className="far fa-star" />
             <span className="ms-2">{"(100)"}</span>
           </div>
-          <h4 className="product-price text-danger mb-5">
-            $980.00{" "}
-            <del
-              style={{ opacity: ".7", color: "#000" }}
-              className="old-price fw-normal"
-            >
-              $990.00
-            </del>
+          <h4 className="product-price text-danger mb-2">
+            ${productDetail.price}
           </h4>
+          <div className="product-descirption mb-3">
+            <h4 className="fw-normal">Description</h4>
+            <h5 className="fw-light">{productDetail.description}</h5>
+          </div>
           <div className="product-order d-flex justify-content-evenly">
             <div
               className="product-qty text-center p-2 d-flex justify-content-between align-items-center fw-bold"
@@ -250,6 +187,13 @@ export default function ProductDetail(props) {
             <button
               className="btn btn-dark w-50"
               style={{ borderRadius: "30px" }}
+              onClick={() => {
+                dispatch({
+                  type: "ADD_TO_CART",
+                  product: productDetail,
+                  qty: qty,
+                });
+              }}
             >
               <i className="fa fa-cart-plus" /> Add to cart
             </button>
@@ -257,7 +201,7 @@ export default function ProductDetail(props) {
         </div>
       </div>
 
-      <div className="row mt-3">
+      {/* <div className="row mt-3">
         <div
           className="col-12 p-3"
           style={{
@@ -367,11 +311,11 @@ export default function ProductDetail(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* MODAL POPUP XEM CHI TIE^T' */}
       {/* Modal Body */}
-      <div
+      {/* <div
         className="modal fade"
         id="modal-product-detail"
         tabIndex={-1}
@@ -420,7 +364,7 @@ export default function ProductDetail(props) {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

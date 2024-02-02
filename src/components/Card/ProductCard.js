@@ -1,20 +1,31 @@
 import React from "react";
 import NewProductStyle from "../NewProduct/NewProduct.module.css";
 import { NavLink } from "react-router-dom";
+import { DOMAIN } from "../../util/constants/settingSystem";
+import { useDispatch } from "react-redux";
 
 export default function ProductCard(props) {
   const { product } = props;
+  const dispatch = useDispatch();
 
   return (
     <div className={NewProductStyle.product}>
       <div className={NewProductStyle.productImg}>
         <img
-          src={require("../../assets/img/product01.png.webp")}
+          src={`${DOMAIN}/products/images/${product.thumbnail}`}
           alt={`product-${product.id}`}
         />
         <div className={NewProductStyle.productLabel}>
-          <span className={NewProductStyle.sale}>-30%</span>
-          <span className={NewProductStyle.new}>NEW</span>
+          {Math.round(Math.random()) === 1 ? (
+            <span className={NewProductStyle.sale}>-30%</span>
+          ) : (
+            ""
+          )}
+          {Math.round(Math.random()) === 1 ? (
+            <span className={NewProductStyle.new}>NEW</span>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className={NewProductStyle.productBody}>
@@ -22,7 +33,11 @@ export default function ProductCard(props) {
           Category {product.category_id}
         </p>
         <h3 className={NewProductStyle.productName}>
-          <NavLink to={"/productdetail"}>{product.name}</NavLink>
+          <NavLink to={`/productdetail/${product.id}`}>
+            {product.name.length >= 20
+              ? `${product.name.slice(0, 20)} ...`
+              : product.name}
+          </NavLink>
         </h3>
         <h4 className={NewProductStyle.productPrice}>
           $980.00{" "}
@@ -53,7 +68,16 @@ export default function ProductCard(props) {
         </div>
       </div>
       <div className={NewProductStyle.addToCart}>
-        <button className={NewProductStyle.addToCartBtn}>
+        <button
+          className={NewProductStyle.addToCartBtn}
+          onClick={() => {
+            dispatch({
+              type: "ADD_TO_CART",
+              product,
+              qty: 1,
+            });
+          }}
+        >
           <i className="fa fa-shopping-cart" /> add to cart
         </button>
       </div>

@@ -38,16 +38,14 @@ export default function NavBar(props) {
                 Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/categories">
-                Categories
-              </NavLink>
-            </li>
             {arrCategories?.map((category, index) => {
               if (index <= 4) {
                 return (
                   <li className="nav-item" key={index}>
-                    <NavLink className="nav-link" to={`/${category.name}`}>
+                    <NavLink
+                      className="nav-link"
+                      to={`/category/${category.id}`}
+                    >
                       {category.name}
                     </NavLink>
                   </li>

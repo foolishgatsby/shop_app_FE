@@ -16,5 +16,7 @@ export function* rootSaga() {
     ProductSaga.watchAddProductSagaAction(),
     ProductSaga.watchDeleteProductSagaAction(),
     ProductSaga.watchEditProductSagaAction(),
+    ProductSaga.watchGetNewProductSagaAction(),
+    ProductSaga.watchGetProductByIdSagaAction(),
   ]);
 }
