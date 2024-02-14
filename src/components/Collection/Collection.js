@@ -1,6 +1,7 @@
 import React from "react";
 import CollectionStyle from "./Collection.module.css";
 import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 export default function Collection(props) {
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
@@ -25,9 +26,12 @@ export default function Collection(props) {
                 <br />
                 Collection
               </h3>
-              <a href="#" className={CollectionStyle.ctaBtn}>
+              <NavLink
+                to={`/category/${category.id}`}
+                className={CollectionStyle.ctaBtn}
+              >
                 Shop now <i className="fa fa-arrow-circle-right" />
-              </a>
+              </NavLink>
             </div>
           </div>
         </div>

@@ -12,7 +12,9 @@ export default function HomeHeader(props) {
   const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
   const dispatch = useDispatch();
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
-  const { cartList, numOfItem } = useSelector((state) => state.CartReducer);
+  const { cartList, numOfItem, totalMoney } = useSelector(
+    (state) => state.CartReducer
+  );
   useEffect(() => {
     dispatch(getCategories_api());
   }, []);
@@ -35,11 +37,20 @@ export default function HomeHeader(props) {
               <a href="#">{product.name}</a>
             </h3>
             <h4 className={clsx(homeHeaderStyle.productPrice, "product-price")}>
-              <span className="qty">${qty}x</span>${product.price}
+              <span className="qty">${qty}x</span>$
+              {Number(product.price).toLocaleString()}
             </h4>
           </div>
-          <button className="delete">
-            <i className="fa fa-close" />
+          <button
+            className="delete"
+            onClick={() => {
+              dispatch({
+                type: "DELETE_FROM_CART",
+                product: product,
+              });
+            }}
+          >
+            <i className="fa fa-times" style={{ color: "white" }} />
           </button>
         </div>
       );
@@ -75,10 +86,18 @@ export default function HomeHeader(props) {
               </a>
             </li>
             <li>
-              <NavLink to="/users/signin">
-                <i className="far fa-user" />{" "}
-                {email !== "" ? email : "My Accout"}
-              </NavLink>
+              {isLogin === false ? (
+                <NavLink to="/users/signin">
+                  <i className="far fa-user" />{" "}
+                  {email !== "" ? email : "My Accout"}
+                </NavLink>
+              ) : (
+                // update profile
+                <NavLink to={`/users/${email}`}>
+                  <i className="far fa-user" />{" "}
+                  {email !== "" ? email : "My Accout"}
+                </NavLink>
+              )}
             </li>
           </ul>
         </div>
@@ -88,7 +107,7 @@ export default function HomeHeader(props) {
           <div className="row">
             <div className="col-12 col-lg-3 d-flex justify-content-center d-lg-block">
               <div className={homeHeaderStyle.headerLogo}>
-                <NavLink to={"/"} className={homeHeaderStyle.logo}>
+                <NavLink to={"/home"} className={homeHeaderStyle.logo}>
                   <img
                     src={require("../../../assets/img/logo.png.webp")}
                     alt="logo"
@@ -100,6 +119,9 @@ export default function HomeHeader(props) {
               <div className={homeHeaderStyle.headerSearch}>
                 <form>
                   <select className={homeHeaderStyle.inputSelect}>
+                    <option value="" disabled selected hidden>
+                      Select category
+                    </option>
                     {arrCategories?.map((category, index) => {
                       return (
                         <option key={index} value={category.id}>
@@ -137,7 +159,7 @@ export default function HomeHeader(props) {
                   >
                     <i className="fa fa-shopping-cart" />
                     <span>Your Cart</span>
-                    <div className={homeHeaderStyle.qty}>3</div>
+                    <div className={homeHeaderStyle.qty}>{numOfItem}</div>
                   </a>
                   <div
                     className={clsx(
@@ -155,7 +177,9 @@ export default function HomeHeader(props) {
                       <small>
                         {numOfItem} Item{numOfItem > 1 ? "(s)" : ""} selected
                       </small>
-                      <h5 style={{ fontSize: "12px" }}>SUBTOTAL: $2940.00</h5>
+                      <h5 style={{ fontSize: "12px" }}>
+                        SUBTOTAL: ${Number(totalMoney).toLocaleString()}
+                      </h5>
                     </div>
                     <div className={homeHeaderStyle.cartBtns}>
                       <NavLink to={"/cart"}>View Cart</NavLink>

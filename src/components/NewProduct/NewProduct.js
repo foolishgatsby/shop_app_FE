@@ -70,7 +70,7 @@ export default function NewProduct(props) {
 
   // render product trong từng tab
   const renderProducts = () => {
-    console.log(newProduct);
+    // console.log(newProduct);
     // dispatch event get product by category_id
     return newProduct?.map((product, index) => {
       return <ProductCard product={product} key={index} />;

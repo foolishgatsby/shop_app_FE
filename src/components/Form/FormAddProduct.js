@@ -1,6 +1,7 @@
-import { Col, DatePicker, Form, Input, Row, Select } from "antd";
+import { Col, Form, Input, Row, Select } from "antd";
+
 // import { Option } from "antd/es/mentions";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { withFormik } from "formik";
 import * as Yup from "yup";
@@ -8,6 +9,7 @@ import {
   addCategory_api,
   addProduct_api,
 } from "../../redux/actions/ActionsApi";
+import { DOMAIN, TOKEN } from "../../util/constants/settingSystem";
 const { Option } = Select;
 
 function FormAddProduct(props) {
@@ -122,7 +124,6 @@ function FormAddProduct(props) {
 const AddProductFormik = withFormik({
   enableReinitialize: true,
   mapPropsToValues: (props) => {
-    console.log(props);
     return {
       name: "",
       price: "",

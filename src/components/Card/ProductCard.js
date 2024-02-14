@@ -40,10 +40,7 @@ export default function ProductCard(props) {
           </NavLink>
         </h3>
         <h4 className={NewProductStyle.productPrice}>
-          $980.00{" "}
-          <del className={NewProductStyle.productOldPrice}>
-            ${Number(product.price).toLocaleString()}
-          </del>
+          ${Number(product.price).toLocaleString()}
         </h4>
         <div className={NewProductStyle.productRating}>
           <i className="fa fa-star" style={{ color: "#ef233c" }} />

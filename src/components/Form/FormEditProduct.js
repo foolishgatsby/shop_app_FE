@@ -1,6 +1,17 @@
-import { Col, DatePicker, Form, Input, Row, Select } from "antd";
+import {
+  Col,
+  DatePicker,
+  Form,
+  Image,
+  Input,
+  Row,
+  Select,
+  Upload,
+  Modal,
+} from "antd";
+import { PlusOutlined } from "@ant-design/icons";
 // import { Option } from "antd/es/mentions";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { withFormik } from "formik";
 import * as Yup from "yup";
@@ -9,14 +20,118 @@ import {
   editCategory_api,
   editProduct_api,
 } from "../../redux/actions/ActionsApi";
+import { DOMAIN, TOKEN } from "../../util/constants/settingSystem";
 const { Option } = Select;
 
+const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+
 function FormEditProduct(props) {
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewTitle, setPreviewTitle] = useState("");
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(
+      file.name || file.url.substring(file.url.lastIndexOf("/") + 1)
+    );
+  };
+  const handleChangeFile = ({ fileList, file }) => {
+    // Cập nhật trạng thái của fileList
+    // Đây là bước quan trọng để Ant Design `Upload` biết được danh sách file hiện tại
+    setFileList(fileList);
+
+    // Tùy chỉnh thêm: bạn có thể thực hiện gọi API tải file lên server tại đây
+    // Lưu ý: Đối với việc tải lên thực tế, bạn có thể cần thực hiện trong hàm khác
+    // và sử dụng `file` để tải lên.
+  };
+
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: "none",
+      }}
+      type="button"
+    >
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+
+  const transformProductImagesToFileList = (productImages) => {
+    return productImages.map((img, index) => ({
+      uid: img.id, // Sử dụng id của ảnh làm uid, đảm bảo là duy nhất
+      name: `Image ${index + 1}`, // Tạo một tên giả định, hoặc bạn có thể sửa đổi nếu có thông tin tên file
+      status: "done", // Đánh dấu đã tải lên thành công
+      url: `${DOMAIN}/products/images/${img.image_url}`, // Sử dụng URL đã được cung cấp từ API
+    }));
+  };
+
+  const customUploadFunction = async (options) => {
+    const { file, onSuccess, onError } = options;
+    const formData = new FormData();
+    formData.append("files", file);
+
+    try {
+      const response = await fetch(`${DOMAIN}/products/uploads/${values.id}`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
+        },
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        console.log("Upload success");
+        // Xử lý thêm nếu cần
+        onSuccess(data, file); // Thông báo cho Upload component rằng tải lên thành công
+
+        // Xử lý để cập nhật giao diện người dùng ở đây
+        // Ví dụ: cập nhật danh sách ảnh để hiển thị ảnh mới
+        const newImage = {
+          uid: data.uid, // Giả sử server trả về một uid duy nhất cho mỗi ảnh
+          name: file.name,
+          status: "done",
+          url: data.url, // URL để truy cập ảnh
+        };
+        setFileList((prevList) => [...prevList, newImage]); // Cập nhật danh sách ảnh với ảnh mới
+      } else {
+        console.log("Upload failed");
+        onError(new Error("Upload failed"));
+      }
+    } catch (error) {
+      console.log(error);
+      onError(new Error("Upload error: " + error.message));
+    }
+  };
+
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
   // console.log(props);
 
   const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
     props;
+  const [fileList, setFileList] = useState(() =>
+    transformProductImagesToFileList(values.product_images || [])
+  );
 
   //   console.log(values);
 
@@ -62,8 +177,12 @@ function FormEditProduct(props) {
             initialValue={values.category_id}
           >
             <Select placeholder="Category select" onChange={handleChange}>
-              {arrCategories.map((category) => {
-                return <Option value={category.id}>{category.name}</Option>;
+              {arrCategories.map((category, index) => {
+                return (
+                  <Option key={index} value={category.id}>
+                    {category.name}
+                  </Option>
+                );
               })}
             </Select>
           </Form.Item>
@@ -101,6 +220,36 @@ function FormEditProduct(props) {
           </Form.Item>
         </Col>
       </Row>
+      <Row gutter={16}>
+        <Col span={24}>
+          <Form.Item label="Product's Images">
+            <Upload
+              action={`${DOMAIN}/products/uploads/${values.id}`}
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={handlePreview}
+              onChange={handleChangeFile}
+              customRequest={customUploadFunction} // Tùy chỉnh hàm tải file của bạn
+            >
+              {fileList.length >= 5 ? null : uploadButton}
+            </Upload>
+            <Modal
+              open={previewOpen}
+              title={previewTitle}
+              footer={null}
+              onCancel={handleCancel}
+            >
+              <img
+                alt="example"
+                style={{
+                  width: "100%",
+                }}
+                src={previewImage}
+              />
+            </Modal>
+          </Form.Item>
+        </Col>
+      </Row>
     </Form>
   );
 }
@@ -114,6 +263,7 @@ const EditProductFormik = withFormik({
       price: props.editProduct.price,
       category_id: props.editProduct.category_id,
       description: props.editProduct.description,
+      product_images: props.editProduct.product_images,
     };
   },
 
@@ -123,7 +273,7 @@ const EditProductFormik = withFormik({
     // console.log(props);
     // console.log(values);
     const editProduct = {
-      name: values.id,
+      name: values.name,
       price: values.price,
       category_id: values.category_id,
       description: values.description,
