@@ -32,6 +32,8 @@ export default (state = initialState, action) => {
       return { ...state };
     case "SET_SUBMIT_ADD_USER":
       state.callBackSubmit = action.submitFunc;
+    case "SET_SUBMIT_EDIT_USER":
+      state.callBackSubmit = action.submitFunc;
       return { ...state };
     case "SET_SUBMIT_ADD_PRODUCT":
       state.callBackSubmit = action.submitFunc;

@@ -128,7 +128,7 @@ function* getNewProductSaga(action) {
 }
 
 export function* watchGetNewProductSagaAction() {
-  yield takeLatest("GET_NEW_PRODUCT", getNewProductSaga);
+  yield takeLatest("GET_NEW_PRODUCT_API", getNewProductSaga);
 }
 
 function* getProductByIdSaga(action) {

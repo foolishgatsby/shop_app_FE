@@ -20,7 +20,7 @@ export default function HomeHeader(props) {
   }, []);
 
   const renderCart = () => {
-    return cartList?.map(({ product, qty }, index) => {
+    return cartList?.map(({ product, quantity }, index) => {
       return (
         <div
           key={index}
@@ -37,7 +37,7 @@ export default function HomeHeader(props) {
               <a href="#">{product.name}</a>
             </h3>
             <h4 className={clsx(homeHeaderStyle.productPrice, "product-price")}>
-              <span className="qty">${qty}x</span>$
+              <span className="qty">${quantity}x</span>$
               {Number(product.price).toLocaleString()}
             </h4>
           </div>

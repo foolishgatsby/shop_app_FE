@@ -2,7 +2,7 @@ import { Service } from "./Service";
 
 class ProductServices extends Service {
   getNewProduct = () => {
-    return this.get(`products/all`);
+    return this.get(`products/all?page=1&limit=10`);
   };
 
   /**

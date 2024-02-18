@@ -12,6 +12,7 @@ export default function ProductCard(props) {
     <div className={NewProductStyle.product}>
       <div className={NewProductStyle.productImg}>
         <img
+          style={{ height: "350px" }}
           src={`${DOMAIN}/products/images/${product.thumbnail}`}
           alt={`product-${product.id}`}
         />
@@ -71,7 +72,7 @@ export default function ProductCard(props) {
             dispatch({
               type: "ADD_TO_CART",
               product,
-              qty: 1,
+              quantity: 1,
             });
           }}
         >

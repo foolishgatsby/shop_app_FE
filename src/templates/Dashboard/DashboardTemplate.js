@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { TOKEN } from "../../util/constants/settingSystem";
 import { isLoginAction } from "../../redux/actions/NormalActions";
 import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
+import OrderTable from "../../components/Tables/OrderTable";
 
 export default function DashboardTemplate(props) {
   const { isLogin, role_id, email } = useSelector(
@@ -142,6 +143,24 @@ export default function DashboardTemplate(props) {
               );
             })}
           </ul>
+
+          <button
+            className="nav-link text-start"
+            id="admin-pills-order-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#admin-pills-order"
+            type="button"
+            role="tab"
+            aria-controls="admin-pills-order"
+            aria-selected="false"
+            style={{ color: "white" }}
+          >
+            <i
+              className="fa fa-shipping-fast me-2"
+              style={{ fontSize: "18px" }}
+            />{" "}
+            ORDERS
+          </button>
         </div>
 
         <div
@@ -180,6 +199,15 @@ export default function DashboardTemplate(props) {
               </div>
             );
           })}
+          <div
+            className="tab-pane fade"
+            id="admin-pills-order"
+            role="tabpanel"
+            aria-labelledby="admin-pills-order-tab"
+            tabIndex="0"
+          >
+            <OrderTable />
+          </div>
         </div>
       </div>
     </div>

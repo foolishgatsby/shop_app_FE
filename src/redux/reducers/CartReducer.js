@@ -14,17 +14,18 @@ export default (state = initialState, action) => {
       if (indexAdd === -1) {
         const newAdd = {
           product: action.product,
-          qty: action.qty,
+          product_id: action.product.id,
+          quantity: action.quantity,
         };
         newCartListAdd.push(newAdd);
-        state.numOfItem += newAdd.qty;
+        state.numOfItem += newAdd.quantity;
       } else {
-        newCartListAdd[indexAdd].qty += action.qty;
-        state.numOfItem += action.qty;
+        newCartListAdd[indexAdd].quantity += action.quantity;
+        state.numOfItem += action.quantity;
       }
       state.totalMoney = 0;
       newCartListAdd.forEach((item, index) => {
-        state.totalMoney += Number(item.product.price) * Number(item.qty);
+        state.totalMoney += Number(item.product.price) * Number(item.quantity);
       });
       return { ...state, cartList: newCartListAdd };
     case "DELETE_FROM_CART":
@@ -36,12 +37,12 @@ export default (state = initialState, action) => {
         newCartListDelete.splice(indexDel, 1);
       }
       state.numOfItem = 0;
-      newCartListDelete.forEach(({ product, qty }, index) => {
-        state.numOfItem += qty;
+      newCartListDelete.forEach(({ product, quantity }, index) => {
+        state.numOfItem += quantity;
       });
       state.totalMoney = 0;
       newCartListDelete.forEach((item, index) => {
-        state.totalMoney += Number(item.product.price) * Number(item.qty);
+        state.totalMoney += Number(item.product.price) * Number(item.quantity);
       });
       return { ...state, cartList: newCartListDelete };
     default:

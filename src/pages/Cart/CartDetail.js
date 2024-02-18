@@ -2,7 +2,7 @@ import React from "react";
 import { DOMAIN } from "../../util/constants/settingSystem";
 
 export default function CartDetail(props) {
-  const { product, qty } = props.item;
+  const { product, quantity } = props.item;
   return (
     <div className="card rounded-3 mb-4" style={{ backgroundColor: "#1e1f29" }}>
       <div className="card-body p-4">
@@ -22,19 +22,19 @@ export default function CartDetail(props) {
             </p>
           </div>
           <div className="col-md-3 col-lg-3 col-xl-2 d-flex">
-            <button className="btn btn-link px-2" onclick={() => {}}>
+            <button className="btn btn-link px-2" onClick={() => {}}>
               <i className="fas fa-minus" />
             </button>
             <input
               id="form1"
               min={0}
-              name="qty"
-              defaultValue={qty}
+              name="quantity"
+              defaultValue={quantity}
               type="number"
               className="form-control form-control-sm"
               style={{ width: "35%" }}
             />
-            <button className="btn btn-link px-2" onclick={() => {}}>
+            <button className="btn btn-link px-2" onClick={() => {}}>
               <i className="fas fa-plus" />
             </button>
           </div>

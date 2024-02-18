@@ -127,8 +127,21 @@ function FormEditProduct(props) {
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
   // console.log(props);
 
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } =
-    props;
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    setFieldValue,
+  } = props;
+
+  const handleChangeSelectCategory = (value) => {
+    console.log(value);
+    setFieldValue("category_id", value);
+  };
+
   const [fileList, setFileList] = useState(() =>
     transformProductImagesToFileList(values.product_images || [])
   );
@@ -176,7 +189,10 @@ function FormEditProduct(props) {
             label="Category"
             initialValue={values.category_id}
           >
-            <Select placeholder="Category select" onChange={handleChange}>
+            <Select
+              placeholder="Category select"
+              onChange={handleChangeSelectCategory}
+            >
               {arrCategories.map((category, index) => {
                 return (
                   <Option key={index} value={category.id}>
@@ -271,7 +287,7 @@ const EditProductFormik = withFormik({
   handleSubmit: (values, { props, setSubmitting }) => {
     // nhấn submit của form => dispatch add category api
     // console.log(props);
-    // console.log(values);
+    console.log(values);
     const editProduct = {
       name: values.name,
       price: values.price,

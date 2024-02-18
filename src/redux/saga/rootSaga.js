@@ -3,6 +3,8 @@ import * as SignInSaga from "./SignInSaga";
 import * as SignUpSaga from "./SignUpSaga";
 import * as CategoriesSaga from "./CategoriesSaga";
 import * as ProductSaga from "./ProductSaga";
+import * as AccountManageSaga from "./AccountManageSaga";
+import * as OrderSaga from "./OrderSaga";
 
 export function* rootSaga() {
   yield all([
@@ -18,5 +20,10 @@ export function* rootSaga() {
     ProductSaga.watchEditProductSagaAction(),
     ProductSaga.watchGetNewProductSagaAction(),
     ProductSaga.watchGetProductByIdSagaAction(),
+    AccountManageSaga.watchGetAllAccountSagaAction(),
+    AccountManageSaga.watchEditAccountSagaAction(),
+    AccountManageSaga.watchGetUserDetailSagaAction(),
+    AccountManageSaga.watchEditProfileSagaAction(),
+    OrderSaga.watchOrderSagaAction(),
   ]);
 }

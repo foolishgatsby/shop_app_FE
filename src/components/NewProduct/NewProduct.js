@@ -38,7 +38,7 @@ export default function NewProduct(props) {
 
   useEffect(() => {
     dispatch({
-      type: "GET_NEW_PRODUCT",
+      type: "GET_NEW_PRODUCT_API",
     });
   }, []);
 

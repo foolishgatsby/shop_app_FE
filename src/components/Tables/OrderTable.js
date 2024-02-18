@@ -10,65 +10,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { openDrawer } from "../../redux/actions/DrawerActions";
 import { OPEN_DRAWER } from "../../redux/constants/DrawerConstants";
 import FormAddUser from "../Form/FormEditAccount";
-import { GET_ALL_ACCOUNT_API } from "../../redux/constants/AccountConstants";
-import FormEditAccount from "../Form/FormEditAccount";
 
-// const dataSource = [
-//   {
-//     key: "1",
-//     id: 1,
-//     name: "Mike",
-//     password: "password 1",
-//     role: "admin",
-//   },
-//   {
-//     key: "2",
-//     id: 2,
-//     name: "Store 1",
-//     password: "password 2",
-//     role: "store owner",
-//   },
-//   {
-//     key: "3",
-//     id: 3,
-//     name: "User account 1",
-//     password: "password 3",
-//     role: "user",
-//   },
-//   {
-//     key: "4",
-//     id: 4,
-//     name: "User account 2",
-//     password: "password 4",
-//     role: "user",
-//   },
-//   {
-//     key: "5",
-//     id: 5,
-//     name: "Store 2",
-//     password: "password 5",
-//     role: "store owner",
-//   },
-// ];
-
-export default function CustomerTable(props) {
-  const { arrAccount, loading } = useSelector(
-    (state) => state.AccountManageReducer
-  );
+export default function OrderTable(props) {
+  const { arrOrders } = useSelector((state) => state.OrderReducer);
 
   const [searchText, setSearchText] = useState("");
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const dispatch = useDispatch();
   useEffect(() => {
-    // Lấy tất cả account về
-    dispatch({
-      type: "SET_LOADING",
-      loading: true,
-    });
-    dispatch({
-      type: GET_ALL_ACCOUNT_API,
-    });
+    // Lấy tất cả orders về
   }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
@@ -191,39 +142,42 @@ export default function CustomerTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "User Name",
-      dataIndex: "fullName",
-      key: "fullName",
-      ...getColumnSearchProps("fullName"),
-      sorter: (a, b) => a.fullName.length - b.fullName.length,
+      title: "Receiver Name",
+      dataIndex: "fullname",
+      key: "name",
+      ...getColumnSearchProps("name"),
+      sorter: (a, b) => a.name.length - b.name.length,
       sortDirections: ["descend", "ascend"],
     },
     {
       title: "Email",
-      dataIndex: "email",
+      dataIndex: "emial",
       key: "email",
     },
     {
-      title: "Account Role",
-      dataIndex: "role",
-      key: "role",
-      render: (_, { role }) => role.name,
-    },
-    {
-      title: "Is Active",
-      dataIndex: "active",
-      key: "active",
-      render: (_, { active }) => (active === true ? "active" : "banned"),
-    },
-    {
       title: "Phone Number",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
+      dataIndex: "phone_number",
+      key: "phone_number",
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
+    },
+    {
+      title: "Notes",
+      dataIndex: "note",
+      key: "note",
+    },
+    {
+      title: "Total Money",
+      dataIndex: "total_money",
+      key: "total_money",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
     },
     {
       title: "",
@@ -235,21 +189,6 @@ export default function CustomerTable(props) {
             className="btn btn-primary"
             onClick={() => {
               // api edit customer
-              dispatch(
-                openDrawer(OPEN_DRAWER, <FormEditAccount />, "Edit Account")
-              );
-              dispatch({
-                type: "SET_EDIT_ACCOUNT",
-                accountEdit: {
-                  id: record.id,
-                  fullname: record.fullName,
-                  email: record.email,
-                  address: record.address,
-                  active: record.active,
-                  role: record.role,
-                  phone_number: record.phoneNumber,
-                },
-              });
             }}
           >
             <EditOutlined />
@@ -271,10 +210,9 @@ export default function CustomerTable(props) {
       <Table
         rowKey={"id"}
         columns={columns}
-        dataSource={arrAccount}
+        dataSource={arrOrders}
         pagination={{ hideOnSinglePage: true }}
         scroll={{ y: "600px" }}
-        loading={loading}
       />
     </div>
   );

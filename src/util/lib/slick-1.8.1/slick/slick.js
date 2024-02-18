@@ -1046,14 +1046,14 @@
 
         var breakPoint = 0;
         var counter = 0;
-        var pagerQty = 0;
+        var pagerqty = 0;
 
         if (_.options.infinite === true) {
             if (_.slideCount <= _.options.slidesToShow) {
-                 ++pagerQty;
+                 ++pagerqty;
             } else {
                 while (breakPoint < _.slideCount) {
-                    ++pagerQty;
+                    ++pagerqty;
                     breakPoint = counter + _.options.slidesToScroll;
                     counter += _.options.slidesToScroll <= _.options.slidesToShow ? _.options.slidesToScroll : _.options.slidesToShow;
                 }

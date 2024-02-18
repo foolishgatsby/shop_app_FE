@@ -14,20 +14,20 @@ export default function ProductDetail(props) {
     // dispatch get product by id
     dispatch(getProductById_api(id));
   }, []);
-  const [qty, setQty] = useState(1);
+  const [quantity, setquantity] = useState(1);
 
-  const increaseQty = () => {
-    setQty(qty + 1);
-    console.log(qty);
+  const increasequantity = () => {
+    setquantity(quantity + 1);
+    console.log(quantity);
   };
 
-  const decreaseQty = () => {
-    if (qty <= 1) {
-      setQty(1);
+  const decreasequantity = () => {
+    if (quantity <= 1) {
+      setquantity(1);
     } else {
-      setQty(qty - 1);
+      setquantity(quantity - 1);
     }
-    console.log(qty);
+    console.log(quantity);
   };
 
   return (
@@ -176,11 +176,11 @@ export default function ProductDetail(props) {
                 width: "30%",
               }}
             >
-              <button className="increase btn fw-bold" onClick={decreaseQty}>
+              <button className="increase btn fw-bold" onClick={decreasequantity}>
                 -
               </button>
-              {qty}
-              <button className="decrease btn fw-bold" onClick={increaseQty}>
+              {quantity}
+              <button className="decrease btn fw-bold" onClick={increasequantity}>
                 +
               </button>
             </div>
@@ -191,7 +191,7 @@ export default function ProductDetail(props) {
                 dispatch({
                   type: "ADD_TO_CART",
                   product: productDetail,
-                  qty: qty,
+                  quantity: quantity,
                 });
               }}
             >
