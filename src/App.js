@@ -15,6 +15,7 @@ import DrawerHOC from "./HOC/DrawerHOC";
 import CategoryTemplate from "./templates/Category/CategoryTemplate";
 import Cart from "./pages/Cart/Cart";
 import UserProfile from "./pages/UserProfile/UserProfile";
+import SearchProductTemplate from "./templates/SearchProduct/SearchProductTemplate";
 
 function App() {
   return (
@@ -34,6 +35,11 @@ function App() {
               exact
               path="/category/:category_id"
               element={<CategoryTemplate />}
+            />
+            <Route
+              exact
+              path="/search/:keyword/:category_id"
+              element={<SearchProductTemplate />}
             />
           </Route>
           <Route exact path="/users/signin" element={<SignIn />} />

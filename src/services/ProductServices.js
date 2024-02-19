@@ -73,6 +73,14 @@ class ProductServices extends Service {
   /**
    * post img
    */
+
+  // search product by category_id and keyword
+  searchProduct = (searchInfo) => {
+    const { category_id, keyword } = searchInfo;
+    return this.get(
+      `products/findByName?keyword=${keyword}&category_id=${category_id}`
+    );
+  };
 }
 
 export const productServices = new ProductServices();

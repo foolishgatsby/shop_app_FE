@@ -9,6 +9,7 @@ import { TOKEN } from "../../util/constants/settingSystem";
 import { isLoginAction } from "../../redux/actions/NormalActions";
 import { getProductByCategory_api } from "../../redux/actions/ActionsApi";
 import OrderTable from "../../components/Tables/OrderTable";
+import RatingTable from "../../components/Tables/RatingTable";
 
 export default function DashboardTemplate(props) {
   const { isLogin, role_id, email } = useSelector(
@@ -146,6 +147,21 @@ export default function DashboardTemplate(props) {
 
           <button
             className="nav-link text-start"
+            id="admin-pills-evaluate-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#admin-pills-evaluate"
+            type="button"
+            role="tab"
+            aria-controls="admin-pills-evaluate"
+            aria-selected="false"
+            style={{ color: "white" }}
+          >
+            <i className="fa fa-comment me-2" style={{ fontSize: "18px" }} />{" "}
+            RATINGS & COMMENTS
+          </button>
+
+          <button
+            className="nav-link text-start"
             id="admin-pills-order-tab"
             data-bs-toggle="pill"
             data-bs-target="#admin-pills-order"
@@ -207,6 +223,15 @@ export default function DashboardTemplate(props) {
             tabIndex="0"
           >
             <OrderTable />
+          </div>
+          <div
+            className="tab-pane fade show"
+            id="admin-pills-evaluate"
+            role="tabpanel"
+            aria-labelledby="admin-pills-evaluate-tab"
+            tabIndex="0"
+          >
+            <RatingTable />
           </div>
         </div>
       </div>

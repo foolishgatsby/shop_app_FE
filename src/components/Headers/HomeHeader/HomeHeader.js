@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // style.module.css
 import homeHeaderStyle from "./HomeHeader.module.css";
 // library
 import clsx from "clsx";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories_api } from "../../../redux/actions/ActionsApi";
 import { DOMAIN } from "../../../util/constants/settingSystem";
@@ -11,6 +11,7 @@ import { DOMAIN } from "../../../util/constants/settingSystem";
 export default function HomeHeader(props) {
   const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);
   const { cartList, numOfItem, totalMoney } = useSelector(
     (state) => state.CartReducer
@@ -18,6 +19,11 @@ export default function HomeHeader(props) {
   useEffect(() => {
     dispatch(getCategories_api());
   }, []);
+
+  const [searchInfo, setSearchInfo] = useState({
+    category_id: "",
+    keyword: "",
+  });
 
   const renderCart = () => {
     return cartList?.map(({ product, quantity }, index) => {
@@ -55,6 +61,21 @@ export default function HomeHeader(props) {
         </div>
       );
     });
+  };
+
+  const handleChange = (e) => {
+    // console.log(e.target);
+    const { name, value } = e.target;
+    console.log(name, value);
+    setSearchInfo({
+      ...searchInfo,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/search/${searchInfo.keyword}/${searchInfo.category_id}`);
   };
 
   // console.log(homeHeaderStyle);
@@ -117,9 +138,16 @@ export default function HomeHeader(props) {
             </div>
             <div className="col-12 col-lg-6">
               <div className={homeHeaderStyle.headerSearch}>
-                <form>
-                  <select className={homeHeaderStyle.inputSelect}>
-                    <option value="" disabled selected hidden>
+                <form onSubmit={handleSubmit}>
+                  <select
+                    name="category_id"
+                    className={homeHeaderStyle.inputSelect}
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
+                    defaultValue={0}
+                  >
+                    <option value={0} disabled hidden>
                       Select category
                     </option>
                     {arrCategories?.map((category, index) => {
@@ -131,8 +159,12 @@ export default function HomeHeader(props) {
                     })}
                   </select>
                   <input
+                    name="keyword"
                     className={clsx(homeHeaderStyle.input, "input")}
                     placeholder="Search here"
+                    onChange={(e) => {
+                      handleChange(e);
+                    }}
                   />
                   <button type="submit" className={homeHeaderStyle.searchBtn}>
                     Search

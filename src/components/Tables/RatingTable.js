@@ -12,9 +12,9 @@ import { OPEN_DRAWER } from "../../redux/constants/DrawerConstants";
 import FormEditOrder from "../Form/FormEditOrder";
 // import FormAddUser from "../Form/FormEditAccount";
 
-export default function OrderTable(props) {
-  const { arrOrders, loading, doneApi } = useSelector(
-    (state) => state.OrderReducer
+export default function RatingTable(props) {
+  const { arrEvaluate, loading } = useSelector(
+    (state) => state.EvaluateReducer
   );
 
   const [searchText, setSearchText] = useState("");
@@ -24,16 +24,13 @@ export default function OrderTable(props) {
   useEffect(() => {
     // Lấy tất cả orders về
     dispatch({
-      type: "SET_LOADING_ORDER",
+      type: "SET_LOADING_EVALUATE",
       loading: true,
     });
     dispatch({
-      type: "GET_ALL_ORDER_API",
+      type: "GET_ALL_EVALUATE_API",
     });
-    if (doneApi) {
-      dispatch(openDrawer(OPEN_DRAWER, <FormEditOrder />, "Edit Order"));
-    }
-  }, [doneApi]);
+  }, []);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
     confirm();
     setSearchText(selectedKeys[0]);
@@ -155,75 +152,43 @@ export default function OrderTable(props) {
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Receiver Name",
-      dataIndex: "fullname",
-      key: "name",
-      ...getColumnSearchProps("name"),
-      sorter: (a, b) => a.name.length - b.name.length,
+      title: "Comment",
+      dataIndex: "comment",
+      key: "comment",
+      ...getColumnSearchProps("comment"),
+      sorter: (a, b) => a.comment.length - b.comment.length,
       sortDirections: ["descend", "ascend"],
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Rating",
+      dataIndex: "rate",
+      key: "rate",
     },
     {
-      title: "Phone Number",
-      dataIndex: "phone_number",
-      key: "phone_number",
+      title: "Product Name",
+      dataIndex: "product",
+      key: "product",
+      render: (_, { product }) => product.name,
     },
     {
-      title: "Shipping Address",
-      dataIndex: "shipping_address",
-      key: "shipping_address",
-    },
-    {
-      title: "Note",
-      dataIndex: "note",
-      key: "note",
-    },
-    {
-      title: "Total Money",
-      dataIndex: "total_money",
-      key: "total_money",
-      render: (_, { total_money }) => total_money.toLocaleString(),
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-    },
-    {
-      title: "Is Active",
-      dataIndex: "active",
-      key: "active",
-      render: (_, { active }) => (active === true ? "active" : "unactive"),
+      title: "User Name",
+      dataIndex: "user",
+      key: "user",
+      render: (_, { user }) => user.fullName,
     },
     {
       title: "",
       key: "action",
-      width: "10%",
+      width: "5%",
       render: (_, record) => (
         <Space size="middle">
-          <button
-            className="btn btn-primary"
-            onClick={() => {
-              // api edit order
-              dispatch({
-                type: "GET_EDIT_ORDER_DETAIL",
-                order_id: record.id,
-              });
-            }}
-          >
-            <EditOutlined />
-          </button>
           <button
             className="btn btn-danger"
             onClick={() => {
               // api delete order
               dispatch({
-                type: "DELETE_ORDER_API",
-                order_id: record.id,
+                type: "DELETE_EVALUATE_API",
+                evaluate_id: record.id,
               });
             }}
           >
@@ -238,7 +203,7 @@ export default function OrderTable(props) {
       <Table
         rowKey={"id"}
         columns={columns}
-        dataSource={arrOrders}
+        dataSource={arrEvaluate}
         pagination={{ hideOnSinglePage: true }}
         scroll={{ y: "600px" }}
         loading={loading}

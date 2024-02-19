@@ -9,7 +9,9 @@ import ProductCard from "../../components/Card/ProductCard";
 export default function CategoryTemplate(props) {
   const { category_id } = useParams();
   const dispatch = useDispatch();
-  const { productList } = useSelector((state) => state.ProductTableReducer);
+  const { productList, sortStatus } = useSelector(
+    (state) => state.ProductTableReducer
+  );
   const { loading } = useSelector((state) => state.ProductTableReducer);
 
   useEffect(() => {
@@ -23,6 +25,50 @@ export default function CategoryTemplate(props) {
   return (
     <>
       <NavBar></NavBar>
+      <div className="container d-flex justify-content-end mt-2">
+        <div>
+          <div>
+            <h6 className="text-end" style={{ paddingRight: "10px" }}>
+              Sort By: {sortStatus}
+            </h6>
+          </div>
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <button
+              onClick={() => {
+                dispatch({
+                  type: "SET_SORT_INCREASE",
+                  sortStatus: "Increase",
+                });
+              }}
+              type="button"
+              className="btn"
+            >
+              Increase Price
+            </button>
+            <button
+              onClick={() => {
+                dispatch(getProductByCategory_api(category_id));
+              }}
+              type="button"
+              className="btn"
+            >
+              None
+            </button>
+            <button
+              onClick={() => {
+                dispatch({
+                  type: "SET_SORT_DECREASE",
+                  sortStatus: "Decrease",
+                });
+              }}
+              type="button"
+              className="btn"
+            >
+              Decrease Price
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="section">
         <div className="container">
           <div style={{ margin: "15px 0" }}>

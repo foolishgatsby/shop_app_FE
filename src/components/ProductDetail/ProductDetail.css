@@ -40,3 +40,7 @@ button.btn.decrease:active {
 .comment .date-time {
   margin-bottom: 0 !important;
 }
+
+.comment .review-txt {
+  font-size: 14px;
+}

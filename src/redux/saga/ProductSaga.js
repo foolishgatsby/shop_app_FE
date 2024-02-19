@@ -150,3 +150,30 @@ function* getProductByIdSaga(action) {
 export function* watchGetProductByIdSagaAction() {
   yield takeLatest(GET_PRODUCT_BY_ID_API, getProductByIdSaga);
 }
+
+function* searchProductSaga(action) {
+  try {
+    // console.log(action);
+    const { data, status } = yield call(() =>
+      productServices.searchProduct(action.searchInfo)
+    );
+
+    if (status === STATUS_CODE.SUCCESS) {
+      // console.log(data);
+      yield put({
+        type: "SET_SEARCH_PRODUCT_LIST",
+        products: data.products,
+      });
+      yield put({
+        type: "SET_LOADING",
+        loading: true,
+      });
+    }
+  } catch (error) {
+    console.log(error.response.data);
+  }
+}
+
+export function* watchSearchProductSagaAction() {
+  yield takeLatest("SEARCH_PRODUCT_API", searchProductSaga);
+}

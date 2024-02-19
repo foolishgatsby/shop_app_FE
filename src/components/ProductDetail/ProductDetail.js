@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./ProductDetail.css";
-import { Progress } from "antd";
+import { Progress, Rate } from "antd";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductById_api } from "../../redux/actions/ActionsApi";
@@ -10,9 +10,23 @@ export default function ProductDetail(props) {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { productDetail } = useSelector((state) => state.ProductTableReducer);
+  const { evaluateList, averageRate } = useSelector(
+    (state) => state.EvaluateReducer
+  );
+  const { isLogin, userDetail } = useSelector((state) => state.IsLoginReducer);
   useEffect(() => {
     // dispatch get product by id
     dispatch(getProductById_api(id));
+    // get userDetail
+    if (isLogin) {
+      dispatch({
+        type: "GET_USER_DETAIL",
+      });
+    }
+    dispatch({
+      type: "GET_EVALUATES_BY_PRODUCT_API",
+      product_id: id,
+    });
   }, []);
   const [quantity, setquantity] = useState(1);
 
@@ -28,6 +42,89 @@ export default function ProductDetail(props) {
       setquantity(quantity - 1);
     }
     console.log(quantity);
+  };
+
+  const roundHalf = (num) => {
+    return Math.round(num * 2) / 2;
+  };
+
+  const [evaluate, setEvaluate] = useState({
+    comment: "",
+    rate: 0,
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEvaluate({
+      ...evaluate,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    // console.log(evaluate, id, userDetail.id);
+    if (!isLogin) {
+      alert("Please login before you post your evaluate about product");
+    }
+    dispatch({
+      type: "POST_EVALUATE_API",
+      evaluateInfo: {
+        comment: evaluate.comment,
+        rate: evaluate.rate,
+        product_id: id,
+        user_id: userDetail.id,
+      },
+    });
+  };
+
+  const renderRating = () => {
+    return (
+      <div className="text-center">
+        <h5 className="mb-2">{averageRate}/5</h5>
+        <p>{`( ${evaluateList.length} đánh giá )`}</p>
+      </div>
+    );
+  };
+
+  const calculateEachStarNum = (star) => {
+    let num = 0;
+    evaluateList.forEach((evaluate, index) => {
+      if (Math.round(evaluate.rate) === star) {
+        num++;
+      }
+    });
+    return num;
+  };
+
+  const calcPercentOfRate = (star) => {
+    let num = calculateEachStarNum(star);
+    return Math.round((num / evaluateList.length) * 100);
+  };
+
+  const renderComment = () => {
+    return evaluateList.map((evaluate, index) => {
+      return (
+        <div className="comment mb-2">
+          <div className="comment-title">
+            <div className="d-flex align-items-start">
+              <p className="me-2 name-letter">
+                {evaluate.user.fullName.charAt(0)}
+              </p>
+              <div className="comment-info">
+                <span className="comment-name">{evaluate.user.fullName}</span>
+                {/* <p className="date-time">
+                  <i className="far fa-clock" /> 24/10/2023 17:30
+                </p> */}
+              </div>
+            </div>
+          </div>
+          <div className="comment-review ms-5">
+            <div className="review-rating">{evaluate.rate}/5</div>
+            <div className="review-txt">{evaluate.comment}</div>
+          </div>
+        </div>
+      );
+    });
   };
 
   return (
@@ -176,11 +273,17 @@ export default function ProductDetail(props) {
                 width: "30%",
               }}
             >
-              <button className="increase btn fw-bold" onClick={decreasequantity}>
+              <button
+                className="increase btn fw-bold"
+                onClick={decreasequantity}
+              >
                 -
               </button>
               {quantity}
-              <button className="decrease btn fw-bold" onClick={increasequantity}>
+              <button
+                className="decrease btn fw-bold"
+                onClick={increasequantity}
+              >
                 +
               </button>
             </div>
@@ -201,7 +304,7 @@ export default function ProductDetail(props) {
         </div>
       </div>
 
-      {/* <div className="row mt-3">
+      <div className="row mt-3">
         <div
           className="col-12 p-3"
           style={{
@@ -215,85 +318,94 @@ export default function ProductDetail(props) {
         >
           <h5 className="mb-5">Đánh giá & nhận xét {"PRODUCT NAME"}</h5>
           <div className="row">
+            {/* Render Rating trung bình */}
             <div
               className="col-lg-5 d-flex justify-content-center align-items-center"
               style={{ borderRight: "1px solid rgba(0,0,0,0.5)" }}
             >
-              <div className="text-center">
-                <h5 className="mb-2">5.0/5</h5>
-                <i className="fa fa-star" style={{ color: "#ef233c" }} />
-                <i className="fa fa-star" style={{ color: "#ef233c" }} />
-                <i className="fa fa-star" style={{ color: "#ef233c" }} />
-                <i className="fa fa-star" style={{ color: "#ef233c" }} />
-                <i className="fa fa-star" style={{ color: "#ef233c" }} />
-                <p>{"( 5 đánh giá )"}</p>
-              </div>
+              {renderRating()}
             </div>
+            {/* Render Rating */}
             <div className="col-lg-7">
               <div className="d-flex justify-content-evenly align-items-center">
                 <div className="">
                   5 <i className="fa fa-star" />
                 </div>
                 <Progress
-                  percent={100}
+                  percent={calcPercentOfRate(5)}
                   strokeColor={"#d10024"}
                   className="w-75"
                   showInfo={false}
                 ></Progress>
-                <span>5 đánh giá</span>
+                <span>{calculateEachStarNum(5)} đánh giá</span>
               </div>
               <div className="d-flex justify-content-evenly align-items-center">
                 <div className="">
-                  0 <i className="fa fa-star" />
+                  4 <i className="fa fa-star" />
                 </div>
                 <Progress
-                  percent={0}
+                  percent={calcPercentOfRate(4)}
                   strokeColor={"#d10024"}
                   className="w-75"
                   showInfo={false}
                 ></Progress>
-                <span>0 đánh giá</span>
+                <span>{calculateEachStarNum(4)} đánh giá</span>
               </div>
               <div className="d-flex justify-content-evenly align-items-center">
                 <div className="">
                   3 <i className="fa fa-star" />
                 </div>
                 <Progress
-                  percent={0}
+                  percent={calcPercentOfRate(3)}
                   strokeColor={"#d10024"}
                   className="w-75"
                   showInfo={false}
                 ></Progress>
-                <span>0 đánh giá</span>
+                <span>{calculateEachStarNum(3)} đánh giá</span>
               </div>
               <div className="d-flex justify-content-evenly align-items-center">
                 <div className="">
                   2 <i className="fa fa-star" />
                 </div>
                 <Progress
-                  percent={0}
+                  percent={calcPercentOfRate(2)}
                   strokeColor={"#d10024"}
                   className="w-75"
                   showInfo={false}
                 ></Progress>
-                <span>0 đánh giá</span>
+                <span>{calculateEachStarNum(2)} đánh giá</span>
               </div>
               <div className="d-flex justify-content-evenly align-items-center">
                 <div className="">
                   1 <i className="fa fa-star" />
                 </div>
                 <Progress
-                  percent={0}
+                  percent={calculateEachStarNum(1)}
                   strokeColor={"#d10024"}
                   className="w-75"
                   showInfo={false}
                 ></Progress>
-                <span>0 đánh giá</span>
+                <span>{calculateEachStarNum(1)} đánh giá</span>
               </div>
             </div>
           </div>
           <hr className="my-3" />
-          <div className="comment">
+          <div className="d-flex justify-content-center">
+            <div>
+              <h5 className="mb-3">Bạn đánh giá sao về sản phẩm này?</h5>
+              <div className="d-flex justify-content-center">
+                <button
+                  type="button"
+                  className="btn btn-danger"
+                  data-bs-toggle="modal"
+                  data-bs-target="#evaluateModal"
+                >
+                  Đánh giá ngay
+                </button>
+              </div>
+            </div>
+          </div>
+          {/* <div className="comment">
             <div className="comment-title">
               <div className="d-flex align-item-center">
                 <p className="me-2 name-letter">N</p>
@@ -309,62 +421,69 @@ export default function ProductDetail(props) {
               <div className="review-rating"></div>
               <div className="review-txt"></div>
             </div>
-          </div>
+          </div> */}
+          <hr className="my-3" />
+          {renderComment()}
         </div>
-      </div> */}
+      </div>
 
-      {/* MODAL POPUP XEM CHI TIE^T' */}
-      {/* Modal Body */}
-      {/* <div
+      <div
         className="modal fade"
-        id="modal-product-detail"
+        id="evaluateModal"
         tabIndex={-1}
-        data-bs-backdrop="static"
-        data-bs-keyboard="false"
-        role="dialog"
-        aria-labelledby="modalTitleId"
+        aria-labelledby="evaluateModalLabel"
         aria-hidden="true"
       >
-        <div
-          className="modal-dialog modal-dialog-scrollable modal-dialog-centered modal-sm"
-          role="document"
-        >
+        <div className="modal-dialog">
           <div className="modal-content">
-            <div
-              className="modal-header"
-              style={{ backgroundColor: "#d10024" }}
-            >
-              <h5 className="modal-title text-white" id="modalTitleId">
-                Thông số kỹ thuật
-              </h5>
+            <div className="modal-header">
+              <h1 className="modal-title fs-5" id="evaluateModalLabel">
+                Đánh giá và nhận xét ngay
+              </h1>
               <button
                 type="button"
                 className="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
-                style={{
-                  borderRadius: "50%",
-                  backgroundColor: "rgba(0, 0, 0, .5)",
-                }}
               />
             </div>
             <div className="modal-body">
-              <table className="table "></table>
+              <h4>{productDetail.name}</h4>
+              <h5>Đánh giá</h5>
+              <Rate
+                allowHalf
+                defaultValue={5}
+                onChange={(value) => {
+                  setEvaluate({
+                    ...evaluate,
+                    rate: value,
+                  });
+                }}
+              />
+              <hr className="my-3" />
+              <textarea
+                name="comment"
+                className="w-100"
+                onChange={(e) => {
+                  handleChange(e);
+                }}
+              />
             </div>
             <div className="modal-footer">
               <button
                 type="button"
-                className="btn w-100"
-                data-bs-dismiss="modal"
-                style={{ backgroundColor: "#d10024", color: "white" }}
+                className="btn btn-danger w-100"
+                // data-bs-dismiss="modal"
+                onClick={(e) => {
+                  handleSubmit(e);
+                }}
               >
-                <i className="fa fa-times me-2" />
-                Đóng
+                Gửi đánh giá
               </button>
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   );
 }

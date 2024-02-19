@@ -5,6 +5,7 @@ import * as CategoriesSaga from "./CategoriesSaga";
 import * as ProductSaga from "./ProductSaga";
 import * as AccountManageSaga from "./AccountManageSaga";
 import * as OrderSaga from "./OrderSaga";
+import * as EvaluatesSaga from "./EvaluatesSaga";
 
 export function* rootSaga() {
   yield all([
@@ -25,5 +26,14 @@ export function* rootSaga() {
     AccountManageSaga.watchGetUserDetailSagaAction(),
     AccountManageSaga.watchEditProfileSagaAction(),
     OrderSaga.watchOrderSagaAction(),
+    ProductSaga.watchSearchProductSagaAction(),
+    EvaluatesSaga.watchGetEvaluatesByProductSagaAction(),
+    EvaluatesSaga.watchPostEvaluateSagaAction(),
+    OrderSaga.watchGetAllOrderSagaAction(),
+    OrderSaga.watchDeleteOrderSagaAction(),
+    OrderSaga.watchGetEditOrderDetailSagaAction(),
+    OrderSaga.watchEditOrderSagaAction(),
+    EvaluatesSaga.watchGetAllEvaluateSagaAction(),
+    EvaluatesSaga.watchDeleteEvaluateSagaAction(),
   ]);
 }
