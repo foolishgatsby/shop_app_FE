@@ -146,6 +146,30 @@ function FormEditProduct(props) {
     transformProductImagesToFileList(values.product_images || [])
   );
 
+  const handleRemove = async (file) => {
+    console.log(file);
+    // Gọi API để xóa ảnh trên server
+    // Giả sử API của bạn cần ID của ảnh để xóa
+    try {
+      const response = await fetch(`${DOMAIN}/products/images/${file.uid}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(TOKEN)}`,
+        },
+      });
+
+      if (response.ok) {
+        // Xử lý logic sau khi xóa ảnh thành công (nếu cần)
+        console.log("Image deleted successfully");
+      } else {
+        // Xử lý lỗi (nếu có)
+        console.error("Failed to delete the image");
+      }
+    } catch (error) {
+      console.error("Error deleting the image:", error);
+    }
+  };
+
   //   console.log(values);
 
   const dispatch = useDispatch();
@@ -245,6 +269,7 @@ function FormEditProduct(props) {
               fileList={fileList}
               onPreview={handlePreview}
               onChange={handleChangeFile}
+              onRemove={handleRemove}
               customRequest={customUploadFunction} // Tùy chỉnh hàm tải file của bạn
             >
               {fileList.length >= 5 ? null : uploadButton}
