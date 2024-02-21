@@ -40,6 +40,10 @@ function FormEditOrder(props) {
     });
   }, []);
 
+  const handleChangeStatus = (value) => {
+    setFieldValue("status", value);
+  };
+
   return (
     <Form layout="vertical" hideRequiredMark onFinish={handleSubmit}>
       <Row gutter={16}>
@@ -124,7 +128,14 @@ function FormEditOrder(props) {
             ]}
             initialValue={values.status}
           >
-            <Input onChange={handleChange} />
+            <Select placeholder="Set status" onChange={handleChangeStatus}>
+              <Option value={"pending"}>Pending</Option>
+              <Option value={"processing"}>Processing</Option>
+              <Option value={"shipped"}>Shipped</Option>
+              <Option value={"delivered"}>Delivered</Option>
+              <Option value={"cancelled"}>Cancelled</Option>
+            </Select>
+            {/* <Input onChange={handleChange} /> */}
           </Form.Item>
         </Col>
       </Row>

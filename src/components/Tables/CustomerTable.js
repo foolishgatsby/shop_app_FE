@@ -228,7 +228,7 @@ export default function CustomerTable(props) {
     {
       title: "",
       key: "action",
-      width: "10%",
+      width: "5%",
       render: (_, record) => (
         <Space size="middle">
           <button
@@ -253,14 +253,6 @@ export default function CustomerTable(props) {
             }}
           >
             <EditOutlined />
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => {
-              // api delete customer
-            }}
-          >
-            <DeleteOutlined />
           </button>
         </Space>
       ),
