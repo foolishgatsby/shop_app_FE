@@ -145,6 +145,24 @@ export default function OrderTable(props) {
         text
       ),
   });
+
+  //helper func to translate date time
+  function formatDate(timestamp) {
+    const date = new Date(timestamp);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Lưu ý: tháng trong JavaScript bắt đầu từ 0
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+
+  //helper func to calculate the number of products
+  const getTotalNumberOfProducts = (orderDetails) => {
+    return orderDetails.reduce(
+      (total, current) => total + current.numberOfProducts,
+      0
+    );
+  };
+
   const columns = [
     {
       title: "ID",
@@ -187,6 +205,18 @@ export default function OrderTable(props) {
       dataIndex: "total_money",
       key: "total_money",
       render: (_, { total_money }) => total_money.toLocaleString(),
+    },
+    {
+      title: "Order Date",
+      dataIndex: "order_date",
+      key: "order_date",
+      render: (text) => formatDate(text),
+    },
+    {
+      title: "Number Of Products",
+      dataIndex: "order_details",
+      key: "numberOfProducts",
+      render: (orderDetails) => getTotalNumberOfProducts(orderDetails),
     },
     {
       title: "Status",

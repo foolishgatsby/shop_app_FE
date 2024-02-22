@@ -53,7 +53,10 @@ function* addProductSaga(action) {
       yield put(getProductByCategory_api(data.category.id));
     }
   } catch (error) {
-    console.log(error.response.data);
+    // console.log(error.response);
+    if (error.response.status === STATUS_CODE.BAD_REQUEST) {
+      alert(`${error.response.data}`);
+    }
   }
 }
 

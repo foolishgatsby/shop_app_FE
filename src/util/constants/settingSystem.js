@@ -9,6 +9,7 @@ export const STATUS_CODE = {
   NOT_FOUND: 404,
   UNAUTHORIZED: 401,
   SERVER_ERROR: 500,
+  BAD_REQUEST: 400,
 };
 
 export const MIN_NUM_OF_CHAR = 6;

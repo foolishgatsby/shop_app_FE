@@ -63,7 +63,9 @@ function* addCategorySaga(action) {
       yield put({ type: GET_ALL_CATEGORIES_API });
     }
   } catch (error) {
-    console.log(error);
+    if (error.response.status === STATUS_CODE.BAD_REQUEST) {
+      alert(`${error.response.data}`);
+    }
   }
 }
 
