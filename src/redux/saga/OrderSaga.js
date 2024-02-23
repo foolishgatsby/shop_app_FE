@@ -114,3 +114,24 @@ function* editOrderSaga(action) {
 export function* watchEditOrderSagaAction() {
   yield takeLatest("EDIT_ORDER_API", editOrderSaga);
 }
+
+function* getOrdersByUserIdSaga(action) {
+  try {
+    const { data, status } = yield call(() =>
+      orderServices.getOrdersByUserId(action.user_id)
+    );
+
+    if (status === STATUS_CODE.SUCCESS) {
+      yield put({
+        type: "UPDATE_ORDERS_OF_USER",
+        userOrderList: data,
+      });
+    }
+  } catch (error) {
+    console.log(error.response.data);
+  }
+}
+
+export function* watchGetOrdersByUserIdSagaAction() {
+  yield takeLatest("GET_ORDERS_BY_USER_ID", getOrdersByUserIdSaga);
+}

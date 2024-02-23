@@ -9,7 +9,9 @@ import { getCategories_api } from "../../../redux/actions/ActionsApi";
 import { DOMAIN } from "../../../util/constants/settingSystem";
 
 export default function HomeHeader(props) {
-  const { isLogin, email } = useSelector((state) => state.IsLoginReducer);
+  const { isLogin, email, userDetail } = useSelector(
+    (state) => state.IsLoginReducer
+  );
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { arrCategories } = useSelector((state) => state.AllCategoriesReducer);

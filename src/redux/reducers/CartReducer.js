@@ -45,6 +45,22 @@ export default (state = initialState, action) => {
         state.totalMoney += Number(item.product.price) * Number(item.quantity);
       });
       return { ...state, cartList: newCartListDelete };
+    case "MINUS_IN_CART":
+      const newCartListMinus = state.cartList;
+      let indexMinus = newCartListMinus.findIndex(
+        (item) => item.product.id === action.product.id
+      );
+      if (indexMinus !== -1) {
+        if (newCartListMinus[indexMinus].quantity >= 1) {
+          newCartListMinus[indexMinus].quantity -= action.quantity;
+          state.numOfItem -= action.quantity;
+        }
+      }
+      state.totalMoney = 0;
+      newCartListMinus.forEach((item, index) => {
+        state.totalMoney += Number(item.product.price) * Number(item.quantity);
+      });
+      return { ...state, cartList: newCartListMinus };
     default:
       return state;
   }

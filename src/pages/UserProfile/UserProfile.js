@@ -8,7 +8,7 @@ export default function UserProfile(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isLogin, userDetail, loading } = useSelector(
+  const { isLogin, email, userDetail, loading } = useSelector(
     (state) => state.IsLoginReducer
   );
 
@@ -31,7 +31,12 @@ export default function UserProfile(props) {
 
   useEffect(() => {
     if (!loading) {
-      setEditProfile(userDetail || {});
+      setEditProfile({
+        fullname: userDetail?.fullname ?? "",
+        phone_number: userDetail?.phone_number ?? "",
+        email: userDetail?.email ?? "",
+        address: userDetail?.address ?? "",
+      });
     }
   }, [loading]);
 
@@ -182,9 +187,14 @@ export default function UserProfile(props) {
                 </div>
               </div>
               <div className="col-md-4">
-                <div className="p-3 py-5">
+                <div className="p-3 pt-5 pb-2">
                   <NavLink className="btn" to={"/home"}>
                     Back to shopping
+                  </NavLink>
+                </div>
+                <div className="p-3 py-0">
+                  <NavLink className="btn" to={`/users/${email}/orders`}>
+                    View yours old order
                   </NavLink>
                 </div>
               </div>

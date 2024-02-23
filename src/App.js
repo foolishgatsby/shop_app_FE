@@ -16,6 +16,7 @@ import CategoryTemplate from "./templates/Category/CategoryTemplate";
 import Cart from "./pages/Cart/Cart";
 import UserProfile from "./pages/UserProfile/UserProfile";
 import SearchProductTemplate from "./templates/SearchProduct/SearchProductTemplate";
+import UserOrders from "./pages/UserOrders/UserOrders";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route exact path="/users/signin" element={<SignIn />} />
           <Route exact path="/users/signup" element={<SignUp />} />
           <Route exact path="/users/:id" element={<UserProfile />} />
+          <Route exact path="/users/:id/orders" element={<UserOrders />} />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/admin" element={<DashboardTemplate />} />
         </Routes>

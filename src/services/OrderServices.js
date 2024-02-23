@@ -20,6 +20,10 @@ class OrderServices extends Service {
   editOrderDetail = (editOrder) => {
     return this.put(`orders/${editOrder.id}`, editOrder);
   };
+
+  getOrdersByUserId = (user_id) => {
+    return this.get(`orders/user/${user_id}`);
+  };
 }
 
 export const orderServices = new OrderServices();

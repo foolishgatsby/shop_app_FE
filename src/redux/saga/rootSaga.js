@@ -35,5 +35,6 @@ export function* rootSaga() {
     OrderSaga.watchEditOrderSagaAction(),
     EvaluatesSaga.watchGetAllEvaluateSagaAction(),
     EvaluatesSaga.watchDeleteEvaluateSagaAction(),
+    OrderSaga.watchGetOrdersByUserIdSagaAction(),
   ]);
 }

@@ -4,8 +4,14 @@ const initialState = {
   isLogin: false,
   role_id: "1",
   email: "",
-  userDetail: {},
+  userDetail: {
+    fullname: "",
+    address: "",
+    phone_number: "",
+    email: "",
+  },
   loading: false,
+  userOrderList: [],
 };
 
 export default (state = initialState, action) => {
@@ -25,6 +31,8 @@ export default (state = initialState, action) => {
       return { ...state };
     case "SET_LOADING_USER_PROFILE":
       return { ...state, loading: action.loading };
+    case "UPDATE_ORDERS_OF_USER":
+      return { ...state, userOrderList: action.userOrderList };
     default:
       return state;
   }
